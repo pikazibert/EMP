@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">emp</string>
+    <string-array name="color_schemes">
+        <item>Complementary</item>
+        <item>Monochromatic</item>
+        <item>Analogous</item>
+        <item>Triadic</item>
+        <item>Tetradic</item>
+    </string-array>
+</resources>
+
+

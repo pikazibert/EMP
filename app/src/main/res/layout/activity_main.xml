@@ -1,0 +1,55 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/colorInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter HEX color"
+        android:layout_marginTop="160dp"/>
+
+    <Spinner
+        android:id="@+id/schemeSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/generateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Generate Palette"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/colorPickerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pick Color" />
+
+    <LinearLayout
+        android:id="@+id/paletteContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/savePaletteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Palette"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/viewSavedPalettesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Saved Palettes"
+         />
+
+</LinearLayout>
