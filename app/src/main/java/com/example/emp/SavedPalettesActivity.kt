@@ -98,7 +98,11 @@ class SavedPalettesActivity : AppCompatActivity() {
             // Dodamo gumba za "Like" in "Share"
             // Gumb "Like" z ikono (thumb-up)
             val likeButton = ImageView(this).apply {
-                setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like) // Nastavimo ikono glede na to, ali je bila paleta všeč
+                if(DarkOn()) {
+                    setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like_dark) // Nastavimo ikono glede na to, ali je bila paleta všeč
+                }else{
+                    setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like) // Nastavimo ikono glede na to, ali je bila paleta všeč
+                }
                 layoutParams = LinearLayout.LayoutParams(60, 60).apply {
                     setMargins(0, 10, 0, 0) // Razmiki okoli gumba
                 } // Velikost ikone
@@ -106,12 +110,21 @@ class SavedPalettesActivity : AppCompatActivity() {
                     val editor = sharedPreferences.edit()
                     editor.putBoolean("liked_$key", !isLiked(key)) // Posodobi "liked" status za ta ključ
                     editor.apply()
-                    setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like) // Posodobimo ikono
+                    if(DarkOn()) {
+                        setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like_dark) // Nastavimo ikono glede na to, ali je bila paleta všeč
+                    }else{
+                        setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like) // Nastavimo ikono glede na to, ali je bila paleta všeč
+                    }
                 }
             }
 
             val shareButton = ImageView(this).apply {
-                setImageResource(R.drawable.share) // Nastavite vir slike (share)
+                if(DarkOn()) {
+                    setImageResource(R.drawable.share_dark) // Nastavite vir slike (share)
+                }else{
+                    setImageResource(R.drawable.share) // Nastavite vir slike (share)
+
+                }
                 layoutParams = LinearLayout.LayoutParams(60, 60).apply {
                     setMargins(0, 0, 0, 10) // Razmiki okoli gumba
                 } // Velikost ikone
@@ -201,5 +214,14 @@ class SavedPalettesActivity : AppCompatActivity() {
 
     private fun isLiked(key: String): Boolean {
         return sharedPreferences.getBoolean("liked_$key", false)
+    }
+
+
+    /*
+    nam pove ali je omogocen darkmode
+     */
+    private fun DarkOn(): Boolean {
+        val nightModeFlags = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        return nightModeFlags == android.content.res.Configuration.UI_MODE_NIGHT_YES
     }
 }
