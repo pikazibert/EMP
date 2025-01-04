@@ -107,6 +107,7 @@ class MainActivity : AppCompatActivity() {
         val editor = sharedPreferences.edit()
         val key = "palette_${System.currentTimeMillis()}"
         editor.putStringSet(key, palette.toSet())
+        editor.putBoolean("liked_$key", false)
         editor.apply()
     }
 }
