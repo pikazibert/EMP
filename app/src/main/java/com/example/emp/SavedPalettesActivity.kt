@@ -11,155 +11,177 @@ import android.os.Handler
 import android.os.Looper
 import android.view.Gravity
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class SavedPalettesActivity : AppCompatActivity() {
 
-    // Ustvarimo lazy inicializirano referenco na SharedPreferences, kjer so shranjene barvne palete.
     private val sharedPreferences by lazy { getSharedPreferences("Palettes", MODE_PRIVATE) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_saved_palettes)
 
-        // Poiščemo LinearLayout iz XML datoteke za prikazovanje shranjenih palet.
         val paletteContainer = findViewById<LinearLayout>(R.id.savedPaletteContainer)
-
-        // Naložimo vse shranjene barvne palete.
+        val spinner = findViewById<Spinner>(R.id.filterDropdown)
         val savedPalettes = loadAllPalettes()
 
-        // Če ni shranjenih palet, prikažemo Toast sporočilo.
         if (savedPalettes.isEmpty()) {
             Toast.makeText(this, "No saved palettes found!", Toast.LENGTH_SHORT).show()
         } else {
-            // Če so palete prisotne, jih prikažemo.
             displayPalettes(paletteContainer, savedPalettes)
+        }
+
+        val filters = listOf("All", "Liked", "2 Col", "3 Col", "4 Col")
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            filters
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedFilter = filters[position]
+                val filteredPalettes = when (selectedFilter) {
+                    "Liked" -> savedPalettes.filter { isLiked(it.second) }
+                    "2 Col" -> savedPalettes.filter { it.first.size == 2 }
+                    "3 Col" -> savedPalettes.filter { it.first.size == 3 }
+                    "4 Col" -> savedPalettes.filter { it.first.size == 4 }
+                    else -> savedPalettes
+                }
+                displayPalettes(paletteContainer, filteredPalettes)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // No action needed
+            }
         }
     }
 
-    /**
-     * Naloži vse shranjene barvne palete iz SharedPreferences.
-     * Vrne seznam palet, kjer je vsaka paleta predstavljena kot seznam nizov z barvnimi kodami.
-
-*/
     private fun loadAllPalettes(): List<Pair<List<String>, String>> {
         val palettesWithLikes = mutableListOf<Pair<List<String>, String>>()
-
-        // Preberi vse ključe iz SharedPreferences (seznam vseh palet).
         sharedPreferences.all.forEach { (key, value) ->
-            // Preveri, če je vrednost tipa Set (to je barvna paleta).
             if (value is Set<*>) {
-                // Pretvori Set v seznam nizov.
                 val palette = value.mapNotNull { it.toString() }
-
-                // Preveri, ali je ta paleta "liked" (oziroma njen status).
-                //val isLiked = sharedPreferences.getBoolean("liked_$key", false)
-
-                // Dodaj paleto in njen "liked" status v seznam.
                 palettesWithLikes.add(Pair(palette, key))
             }
         }
-
         return palettesWithLikes
     }
 
-    /**
-     * Prikaže vse shranjene palete v podanem LinearLayout.
-     * Vsaka paleta se prikaže kot vrstica z barvnimi pogledi.
-     */
-    private fun displayPalettes(container: LinearLayout, palettes: List<Pair<List<String>, String>>) {
-        container.removeAllViews() // Počistimo obstoječe poglede.
-
+    private fun displayPalettes(
+        container: LinearLayout,
+        palettes: List<Pair<List<String>, String>>
+    ) {
+        container.removeAllViews()
         for ((palette, key) in palettes) {
-            // Glavni kontejner za eno paleto
             val paletteRow = LinearLayout(this).apply {
-                orientation = LinearLayout.HORIZONTAL // Horizontalna postavitev
+                orientation = LinearLayout.HORIZONTAL
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
-                setPadding(0, 16, 0, 16) // Razmiki med vrsticami
+                setPadding(0, 16, 0, 16)
             }
-
-            // Dodamo barvne kvadrate
             for (color in palette) {
                 val colorView = createColorView(color)
                 paletteRow.addView(colorView)
             }
-
-            // Dodamo gumba za "Like" in "Share"
-            // Gumb "Like" z ikono (thumb-up)
             val likeButton = ImageView(this).apply {
-                if(DarkOn()) {
-                    setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like_dark) // Nastavimo ikono glede na to, ali je bila paleta všeč
-                }else{
-                    setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like) // Nastavimo ikono glede na to, ali je bila paleta všeč
+                if (DarkOn()) {
+                    setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like_dark)
+                } else {
+                    setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like)
                 }
                 layoutParams = LinearLayout.LayoutParams(60, 60).apply {
-                    setMargins(0, 10, 0, 0) // Razmiki okoli gumba
-                } // Velikost ikone
+                    setMargins(0, 10, 0, 0)
+                }
                 setOnClickListener {
                     val editor = sharedPreferences.edit()
-                    editor.putBoolean("liked_$key", !isLiked(key)) // Posodobi "liked" status za ta ključ
+                    editor.putBoolean("liked_$key", !isLiked(key))
                     editor.apply()
-                    if(DarkOn()) {
-                        setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like_dark) // Nastavimo ikono glede na to, ali je bila paleta všeč
-                    }else{
-                        setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like) // Nastavimo ikono glede na to, ali je bila paleta všeč
+                    if (DarkOn()) {
+                        setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like_dark)
+                    } else {
+                        setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like)
                     }
                 }
             }
-
             val shareButton = ImageView(this).apply {
-                if(DarkOn()) {
-                    setImageResource(R.drawable.share_dark) // Nastavite vir slike (share)
-                }else{
-                    setImageResource(R.drawable.share) // Nastavite vir slike (share)
-
+                if (DarkOn()) {
+                    setImageResource(R.drawable.share_dark)
+                } else {
+                    setImageResource(R.drawable.share)
                 }
                 layoutParams = LinearLayout.LayoutParams(60, 60).apply {
-                    setMargins(0, 0, 0, 10) // Razmiki okoli gumba
-                } // Velikost ikone
+                    setMargins(0, 0, 0, 10)
+                }
                 setOnClickListener {
-                    sharePalette(palette) // Funkcija za deljenje palete
+                    sharePalette(palette)
                 }
             }
-
-            // Dodajte vertikalni prostor med gumbi z uporabo Dummy View ali prazen LinearLayout
             val space = View(this).apply {
                 layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, // Polna širina
-                    0 // Brez dejanske višine
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    0
                 ).apply {
-                    weight = 1f // Dodelite težišče, da ustvari prostor med gumbi
+                    weight = 1f
                 }
             }
-
-            // Ustvarimo vertikalni kontejner za gumba
             val buttonContainer = LinearLayout(this).apply {
-                orientation = LinearLayout.VERTICAL // Vertikalna postavitev
+                orientation = LinearLayout.VERTICAL
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.MATCH_PARENT
                 ).apply {
-                    setMargins(16, 0, 16, 0) // Razmiki okoli gumba
+                    setMargins(16, 0, 16, 0)
                 }
             }
-
-// Dodamo gumba v vertikalni kontejner
             buttonContainer.addView(likeButton)
-            buttonContainer.addView(space) // Prazni prostor med gumboma
+            buttonContainer.addView(space)
             buttonContainer.addView(shareButton)
-
-// Dodamo kontejner z gumbi v vrstico
             paletteRow.addView(buttonContainer)
-            // Dodamo vrstico v glavni vsebnik
             container.addView(paletteRow)
         }
+    }
+
+    private fun createColorView(color: String): LinearLayout {
+        val colorView = LinearLayout(this)
+        val backgroundDrawable = GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            cornerRadius = 16f
+            setColor(Color.parseColor(color))
+        }
+        colorView.background = backgroundDrawable
+        val layoutParams = LinearLayout.LayoutParams(0, 150, 1f)
+        layoutParams.setMargins(8, 8, 8, 8)
+        colorView.layoutParams = layoutParams
+        val colorCodeTextView = TextView(this).apply {
+            text = color
+            setTextColor(Color.BLACK)
+            textSize = 12f
+            gravity = Gravity.CENTER
+            visibility = TextView.GONE
+        }
+        colorView.addView(colorCodeTextView)
+        colorView.setOnClickListener {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Color Code", color)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(this, "Color code copied", Toast.LENGTH_SHORT).show()
+            colorCodeTextView.visibility = TextView.VISIBLE
+            Handler(Looper.getMainLooper()).postDelayed({
+                colorCodeTextView.visibility = TextView.GONE
+            }, 10000)
+        }
+        return colorView
     }
 
     private fun sharePalette(palette: List<String>) {
@@ -171,80 +193,14 @@ class SavedPalettesActivity : AppCompatActivity() {
         }
         startActivity(Intent.createChooser(shareIntent, "Share via"))
     }
-    /**
-     * Ustvari in vrne LinearLayout, ki prikazuje posamezno barvo.
-     * Barva je določena z nizom, ki predstavlja barvno kodo (npr. "#FF0000").
-
-
-
-    stara funkcija, hocem zaobljene robove
-    private fun createColorView(color: String): LinearLayout {
-        val colorView = LinearLayout(this)
-        colorView.setBackgroundColor(Color.parseColor(color)) // Nastavimo ozadje na določeno barvo.
-        val layoutParams = LinearLayout.LayoutParams(0, 150, 1f) // Širina proporcionalna (1f) za enakomerno porazdelitev.
-        layoutParams.setMargins(8, 8, 8, 8) // Določimo robove za barvni pogled.
-        colorView.layoutParams = layoutParams
-        return colorView
-    }
-    */
-
-    private fun createColorView(color: String): LinearLayout {
-        val colorView = LinearLayout(this)
-
-        // Ustvarimo GradientDrawable za zaobljene robove.
-        val backgroundDrawable = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            cornerRadius = 16f // Polmer za zaobljene robove (v dp, 16f je približno 8dp).
-            setColor(Color.parseColor(color)) // Nastavimo barvo ozadja.
-        }
-
-        colorView.background = backgroundDrawable // Nastavimo ozadje pogleda.
-
-        // Nastavimo parametre za postavitev in robove.
-        val layoutParams = LinearLayout.LayoutParams(0, 150, 1f)
-        layoutParams.setMargins(8, 8, 8, 8)
-        colorView.layoutParams = layoutParams
-
-        // Dodamo TextView za prikaz barvne kode.
-        val colorCodeTextView = TextView(this).apply {
-            text = color
-            setTextColor(Color.BLACK) // Nastavimo barvo besedila.
-            textSize = 12f
-            gravity = Gravity.CENTER
-            visibility = TextView.GONE // Skrijemo, dokler ni potreben prikaz.
-        }
-        colorView.addView(colorCodeTextView)
-
-        // Nastavimo onClickListener za kopiranje barvne kode v odložišče.
-        colorView.setOnClickListener {
-            // Kopiramo barvno kodo v odložišče.
-            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("Color Code", color)
-            clipboard.setPrimaryClip(clip)
-
-            // Prikaz sporočila "color code copied".
-            Toast.makeText(this, "Color code copied", Toast.LENGTH_SHORT).show()
-
-            // Prikažemo barvno kodo za 10 sekund.
-            colorCodeTextView.visibility = TextView.VISIBLE
-            Handler(Looper.getMainLooper()).postDelayed({
-                colorCodeTextView.visibility = TextView.GONE
-            }, 10000) // Po 10 sekundah skrijemo besedilo.
-        }
-
-        return colorView
-    }
 
     private fun isLiked(key: String): Boolean {
         return sharedPreferences.getBoolean("liked_$key", false)
     }
 
-
-    /*
-    nam pove ali je omogocen darkmode
-     */
     private fun DarkOn(): Boolean {
-        val nightModeFlags = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        val nightModeFlags =
+            resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         return nightModeFlags == android.content.res.Configuration.UI_MODE_NIGHT_YES
     }
 }
