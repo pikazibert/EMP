@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         val colorPickerButton = findViewById<Button>(R.id.colorPickerButton)
         val savePaletteButton = findViewById<Button>(R.id.savePaletteButton)
         val viewSavedPalettesButton = findViewById<Button>(R.id.viewSavedPalettesButton)
+        val settings = findViewById<ImageButton>(R.id.settingsButton)
         val paletteContainer = findViewById<LinearLayout>(R.id.paletteContainer)
         val historyContainer = findViewById<LinearLayout>(R.id.historyContainer)  // This is the container for history
 
@@ -78,6 +79,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SavedPalettesActivity::class.java)
             startActivity(intent)
         }
+        settings.setOnClickListener {
+            val intent = Intent(this, SettingsInfoActivity::class.java)
+            startActivity(intent)
+        }
+
 
         // Display the history of selected colors
         displayColorHistory(historyContainer)

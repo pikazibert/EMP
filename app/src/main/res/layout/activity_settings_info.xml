@@ -1,0 +1,48 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Gumb za brisanje vseh podatkov -->
+    <Button
+        android:id="@+id/deleteAllData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete All Data"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Napis o projektu in avtorjih -->
+
+    <TextView
+        android:id="@+id/projectName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Project: MyPalette"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/githubLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GitHub Repository: https://github.com/pikazibert/EMP"
+        android:textColor="@android:color/holo_blue_dark"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/openSourceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This project is open source."
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/authors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Authors: Pika and Jasa" />
+
+</LinearLayout>
