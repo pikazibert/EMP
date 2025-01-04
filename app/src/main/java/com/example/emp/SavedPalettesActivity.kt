@@ -39,16 +39,6 @@ class SavedPalettesActivity : AppCompatActivity() {
      * Naloži vse shranjene barvne palete iz SharedPreferences.
      * Vrne seznam palet, kjer je vsaka paleta predstavljena kot seznam nizov z barvnimi kodami.
 
-    private fun loadAllPalettes(): List<List<String>> {
-        return sharedPreferences.all.values.mapNotNull { value ->
-            // Preverimo, če je vrednost tipa Set in jo pretvorimo v seznam nizov.
-            if (value is Set<*>) {
-                value.mapNotNull { it.toString() } // Pretvorimo elemente v nize.
-            } else {
-                null // Vrednosti, ki niso Set, ignoriramo.
-            }
-        }
-    }
 */
     private fun loadAllPalettes(): List<Pair<List<String>, String>> {
         val palettesWithLikes = mutableListOf<Pair<List<String>, String>>()

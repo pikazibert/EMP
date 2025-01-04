@@ -51,5 +51,12 @@
         android:layout_height="wrap_content"
         android:text="View Saved Palettes"
          />
-
+    <LinearLayout
+        android:id="@+id/historyContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="start"
+        android:layout_alignParentBottom="true"/>
 </LinearLayout>
