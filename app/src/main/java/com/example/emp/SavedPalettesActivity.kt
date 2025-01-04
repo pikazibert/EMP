@@ -1,13 +1,19 @@
 package com.example.emp
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.Gravity
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -198,6 +204,33 @@ class SavedPalettesActivity : AppCompatActivity() {
         val layoutParams = LinearLayout.LayoutParams(0, 150, 1f)
         layoutParams.setMargins(8, 8, 8, 8)
         colorView.layoutParams = layoutParams
+
+        // Dodamo TextView za prikaz barvne kode.
+        val colorCodeTextView = TextView(this).apply {
+            text = color
+            setTextColor(Color.BLACK) // Nastavimo barvo besedila.
+            textSize = 12f
+            gravity = Gravity.CENTER
+            visibility = TextView.GONE // Skrijemo, dokler ni potreben prikaz.
+        }
+        colorView.addView(colorCodeTextView)
+
+        // Nastavimo onClickListener za kopiranje barvne kode v odložišče.
+        colorView.setOnClickListener {
+            // Kopiramo barvno kodo v odložišče.
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Color Code", color)
+            clipboard.setPrimaryClip(clip)
+
+            // Prikaz sporočila "color code copied".
+            Toast.makeText(this, "Color code copied", Toast.LENGTH_SHORT).show()
+
+            // Prikažemo barvno kodo za 10 sekund.
+            colorCodeTextView.visibility = TextView.VISIBLE
+            Handler(Looper.getMainLooper()).postDelayed({
+                colorCodeTextView.visibility = TextView.GONE
+            }, 10000) // Po 10 sekundah skrijemo besedilo.
+        }
 
         return colorView
     }
