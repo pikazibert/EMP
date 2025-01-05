@@ -19,6 +19,7 @@ import android.text.TextWatcher
 import android.text.Editable
 import android.util.Log
 import android.view.Gravity
+import androidx.appcompat.app.AppCompatDelegate
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private val colorHistory = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        applySavedTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -175,7 +177,6 @@ class MainActivity : AppCompatActivity() {
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clip = ClipData.newPlainText("Color Code", color)
                 clipboard.setPrimaryClip(clip)
-                Toast.makeText(this, "Color code copied to clipboard", Toast.LENGTH_SHORT).show()
 
                 // Show the HEX code temporarily
                 colorCodeTextView.visibility = TextView.VISIBLE
@@ -250,6 +251,15 @@ class MainActivity : AppCompatActivity() {
             }
 
             container.addView(colorView)
+        }
+    }
+
+    private fun applySavedTheme() {
+        val savedTheme = sharedPreferences.getString("theme", "Night")
+
+        when (savedTheme) {
+            "Night" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "Day" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
 
