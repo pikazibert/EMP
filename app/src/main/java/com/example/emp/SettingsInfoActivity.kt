@@ -42,20 +42,28 @@ class SettingsInfoActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, options)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
-        fun avto() {
+        var isChangingTheme = false
 
+        fun avto() {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
         fun day() {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            Toast.makeText(this, "Day mode  (we hate it too)", Toast.LENGTH_SHORT).show()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                Toast.makeText(this, "Day mode  (we hate it too)", Toast.LENGTH_SHORT).show()
         }
         fun night() {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            Toast.makeText(this, "Night mode", Toast.LENGTH_SHORT).show()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                Toast.makeText(this, "Night mode", Toast.LENGTH_SHORT).show()
         }
 
+        var isFirstSelection = true
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isFirstSelection) {
+                    isFirstSelection = false
+                    return
+                }
+                if (isChangingTheme) return
                 when (position) {
                     0 -> avto()
                     1 -> day()
