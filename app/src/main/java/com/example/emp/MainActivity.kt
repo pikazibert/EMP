@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         val generateButton = findViewById<Button>(R.id.generateButton)
         val colorPickerButton = findViewById<Button>(R.id.colorPickerButton)
         val savePaletteButton = findViewById<Button>(R.id.savePaletteButton)
-        val viewSavedPalettesButton = findViewById<Button>(R.id.viewSavedPalettesButton)
+        val viewSavedPalettesButton = findViewById<ImageButton>(R.id.viewSavedPalettesButton)
         val settings = findViewById<ImageButton>(R.id.settingsButton)
         val paletteContainer = findViewById<LinearLayout>(R.id.paletteContainer)
         val historyContainer = findViewById<LinearLayout>(R.id.historyContainer)  // This is the container for history

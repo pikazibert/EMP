@@ -5,14 +5,34 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <ImageButton
-        android:id="@+id/settingsButton"
-        android:layout_width="53dp"
-        android:layout_height="53dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/settings"
-        android:scaleType="fitCenter"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/settings" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/viewSavedPalettesButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/open" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/colorInput"
@@ -54,12 +74,6 @@
         android:text="Save Palette"
         android:layout_marginTop="16dp" />
 
-    <Button
-        android:id="@+id/viewSavedPalettesButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View Saved Palettes"
-         />
     <LinearLayout
         android:id="@+id/historyContainer"
         android:layout_width="match_parent"
