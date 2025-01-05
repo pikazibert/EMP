@@ -7,7 +7,8 @@
 ---
 
 ## Kratek opis projekta
-MyPalette je mobilna aplikacija, namenjena generiranju barvnih palet na podlagi izbrane začetne barve. Uporabniki lahko vnesejo HEX barvno kodo ali uporabijo barvni izbirnik za izbiro začetne barve. Aplikacija ponuja različne barvne sheme, kot so komplementarne, monokromatske, analogne, triadične in tetradične. Generirane barvne palete so vizualizirane v uporabniško prijaznem vmesniku, kjer jih uporabnik lahko shrani, deli ali označi kot priljubljene za kasnejšo uporabo.
+MyPalette je mobilna aplikacija, namenjena generiranju barvnih palet na podlagi izbrane začetne barve. Uporabniki lahko vnesejo HEX barvno kodo ali uporabijo barvni izbirnik za izbiro začetne barve. Aplikacija ponuja različne barvne sheme, kot so 
+komplementarne, monokromatske, analogne, triadične in tetradične. Generirane barvne palete so vizualizirane v uporabniško prijaznem vmesniku, kjer jih uporabnik lahko shrani, deli ali označi kot priljubljene za kasnejšo uporabo. 
 
 ---
 
@@ -35,12 +36,13 @@ MyPalette je mobilna aplikacija, namenjena generiranju barvnih palet na podlagi 
 
 ### 2. Pregled shranjenih palet
 - Uporabnik lahko pregleda vse shranjene barvne palete.
-- Dodajanje palet med priljubljene, deljenje in brisanje.
+- Dodajanje palet med priljubljene in deljenje.
 
 ### 3. Dodatne funkcionalnosti
 - Kopiranje HEX kode barve v odložišče z enim klikom.
 - Prikaz zgodovine izbranih barv.
-
+- Brisanje podatkov.
+  
 ---
 
 ## Kratek opis arhitekturne zasnove aplikacije
