@@ -5,20 +5,18 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 
 class SettingsInfoActivity : AppCompatActivity() {
     private val sharedPreferences by lazy { getSharedPreferences("Palettes", MODE_PRIVATE) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        applySavedTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings_info)
+
         val deleteAllDataButton: Button = findViewById(R.id.deleteAllData)
         deleteAllDataButton.setOnClickListener {
             AlertDialog.Builder(this)
@@ -35,26 +33,22 @@ class SettingsInfoActivity : AppCompatActivity() {
                 .show()
         }
 
-
         val spinner: Spinner = findViewById(R.id.tema)
-        val options = arrayOf("Avto", "Day", "Night") // Možnosti za spinner
+        val options = arrayOf("Auto", "Day", "Night") // Spinner options
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, options)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
-        var isChangingTheme = false
 
-        fun avto() {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        }
-        fun day() {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                Toast.makeText(this, "Day mode  (we hate it too)", Toast.LENGTH_SHORT).show()
-        }
-        fun night() {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                Toast.makeText(this, "Night mode", Toast.LENGTH_SHORT).show()
-        }
+        val savedTheme = sharedPreferences.getString("theme", "Auto")
+        spinner.setSelection(
+            when (savedTheme) {
+                "Auto" -> 0
+                "Day" -> 1
+                "Night" -> 2
+                else -> 0
+            }
+        )
 
         var isFirstSelection = true
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -63,20 +57,24 @@ class SettingsInfoActivity : AppCompatActivity() {
                     isFirstSelection = false
                     return
                 }
-                if (isChangingTheme) return
-                when (position) {
-                    0 -> avto()
-                    1 -> day()
-                    2 -> night()
+
+                val selectedTheme = options[position]
+                if (selectedTheme == savedTheme) return
+
+                when (selectedTheme) {
+                    "Auto" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                    "Day" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    "Night" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 }
+
+                saveThemePreference(selectedTheme)
+                recreate()
             }
 
-            override fun onNothingSelected(parentView: AdapterView<*>?) {
-                // Nič ne naredite, ko ni izbranih nobenih vrednosti
-            }
+            override fun onNothingSelected(parentView: AdapterView<*>?) {}
         }
 
-        // Opis
+        // Description text
         val descriptionText = findViewById<TextView>(R.id.descriptionText)
         val description = """
         <b>MyPalette</b> is an open-source interactive color palette generator designed to help you create beautiful and harmonious color schemes with ease. 
@@ -85,14 +83,25 @@ class SettingsInfoActivity : AppCompatActivity() {
         Key features include the ability to <b>save</b>, <b>favorite</b>, and <b>share</b> your palettes effortlessly.<br><br>
         
         <b>Harmony modes:</b><br>
-    """.trimIndent()
-
+        """.trimIndent()
 
         descriptionText.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Html.fromHtml(description, Html.FROM_HTML_MODE_LEGACY)
-        } else
-        {
+        } else {
             Html.fromHtml(description)
         }
+    }
+
+    private fun applySavedTheme() {
+        val savedTheme = sharedPreferences.getString("theme", "Auto")
+        when (savedTheme) {
+            "Auto" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            "Day" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "Night" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+    }
+
+    private fun saveThemePreference(theme: String) {
+        sharedPreferences.edit().putString("theme", theme).apply()
     }
 }

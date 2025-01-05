@@ -172,7 +172,6 @@ class SavedPalettesActivity : AppCompatActivity() {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("Color Code", color)
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(this, "Color code copied", Toast.LENGTH_SHORT).show()
             colorCodeTextView.visibility = TextView.VISIBLE
             Handler(Looper.getMainLooper()).postDelayed({
                 colorCodeTextView.visibility = TextView.GONE
