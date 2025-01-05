@@ -1,5 +1,6 @@
 package com.example.emp
 
+import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -20,8 +21,18 @@ class SettingsInfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings_info)
         val deleteAllDataButton: Button = findViewById(R.id.deleteAllData)
         deleteAllDataButton.setOnClickListener {
-            sharedPreferences.edit().clear().apply()
-            Toast.makeText(this, "All data deleted!", Toast.LENGTH_SHORT).show()
+            AlertDialog.Builder(this)
+                .setTitle("Confirm Deletion")
+                .setMessage("Are you sure you want to delete all data?")
+                .setPositiveButton("Yes") { _, _ ->
+                    sharedPreferences.edit().clear().apply()
+                    Toast.makeText(this, "All data deleted!", Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
         }
 
 
@@ -32,8 +43,7 @@ class SettingsInfoActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
         fun avto() {
-            //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            Toast.makeText(this, "Avto mode", Toast.LENGTH_SHORT).show()           //  se ne dela, mora glede na moc svetlobe v okolici.
+
         }
         fun day() {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
