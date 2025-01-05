@@ -1,11 +1,14 @@
 package com.example.emp
 
+import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -53,6 +56,25 @@ class SettingsInfoActivity : AppCompatActivity() {
             override fun onNothingSelected(parentView: AdapterView<*>?) {
                 // Nič ne naredite, ko ni izbranih nobenih vrednosti
             }
+        }
+
+        // Opis
+        val descriptionText = findViewById<TextView>(R.id.descriptionText)
+        val description = """
+        <b>MyPalette</b> is an open-source interactive color palette generator designed to help you create beautiful and harmonious color schemes with ease. 
+        It empowers designers, developers, and creatives with intuitive tools to explore a wide range of color combinations and themes.  <br><br>
+        
+        Key features include the ability to <b>save</b>, <b>favorite</b>, and <b>share</b> your palettes effortlessly.<br><br>
+        
+        <b>Harmony modes:</b><br>
+    """.trimIndent()
+
+
+        descriptionText.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(description, Html.FROM_HTML_MODE_LEGACY)
+        } else
+        {
+            Html.fromHtml(description)
         }
     }
 }

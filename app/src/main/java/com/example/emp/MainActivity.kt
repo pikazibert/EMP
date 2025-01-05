@@ -1,14 +1,25 @@
 package com.example.emp
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import yuku.ambilwarna.AmbilWarnaDialog
+import android.text.TextWatcher
+import android.text.Editable
+import android.util.Log
+import android.view.Gravity
+
 
 class MainActivity : AppCompatActivity() {
     private var selectedColor: Int = Color.BLACK
@@ -21,46 +32,58 @@ class MainActivity : AppCompatActivity() {
 
         val colorInput = findViewById<EditText>(R.id.colorInput)
         val schemeSpinner = findViewById<Spinner>(R.id.schemeSpinner)
-        val generateButton = findViewById<Button>(R.id.generateButton)
-        val colorPickerButton = findViewById<Button>(R.id.colorPickerButton)
+        val paletteContainer = findViewById<LinearLayout>(R.id.paletteContainer)
+        val historyContainer = findViewById<LinearLayout>(R.id.historyContainer)
+        val colorPickerButton = findViewById<ImageButton>(R.id.colorPickerButton)
         val savePaletteButton = findViewById<Button>(R.id.savePaletteButton)
         val viewSavedPalettesButton = findViewById<ImageButton>(R.id.viewSavedPalettesButton)
         val settings = findViewById<ImageButton>(R.id.settingsButton)
-        val paletteContainer = findViewById<LinearLayout>(R.id.paletteContainer)
-        val historyContainer = findViewById<LinearLayout>(R.id.historyContainer)
 
-        // Existing spinner setup
         val schemes = listOf("Complementary", "Monochromatic", "Analogous", "Triadic", "Tetradic")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, schemes)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         schemeSpinner.adapter = adapter
 
-        colorInput.setText("#${Integer.toHexString(selectedColor).substring(2).uppercase()}")
+        val defaultColorHex = "#${Integer.toHexString(selectedColor).substring(2).uppercase()}"
+        colorInput.setText(defaultColorHex)
 
-        colorPickerButton.setOnClickListener { openColorPickerDialog() }
+        updatePalette(defaultColorHex, schemeSpinner.selectedItem?.toString() ?: "Complementary")
 
-        generateButton.setOnClickListener {
-            val hexColor = colorInput.text.toString().trim()
+        colorInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            if (!hexColor.matches(Regex("^#([A-Fa-f0-9]{6})$"))) {
-                Toast.makeText(this, "Enter a valid HEX color (e.g., #FF5733)", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val hexColor = s.toString().trim()
+                if (hexColor.matches(Regex("^#([A-Fa-f0-9]{6})$"))) {
+                    updatePalette(hexColor, schemeSpinner.selectedItem?.toString() ?: "Complementary")
+                }
+            }
+        })
+
+        schemeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val hexColor = colorInput.text.toString().trim()
+                if (hexColor.matches(Regex("^#([A-Fa-f0-9]{6})$"))) {
+                    updatePalette(hexColor, parent.getItemAtPosition(position).toString())
+                }
             }
 
-            val schemeType = schemeSpinner.selectedItem?.toString() ?: "Complementary"
-            val palette = when (schemeType) {
-                "Complementary" -> ColorUtils.generateComplementaryColor(hexColor)
-                "Monochromatic" -> ColorUtils.generateMonochromaticColors(hexColor)
-                "Analogous" -> ColorUtils.generateAnalogousColors(hexColor)
-                "Triadic" -> ColorUtils.generateTriadicColors(hexColor)
-                "Tetradic" -> ColorUtils.generateTetradicColors(hexColor)
-                else -> listOf(hexColor)
-            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
 
-            displayPalette(paletteContainer, palette)
+        colorPickerButton.setOnClickListener {
+            openColorPickerDialog { selectedColorHex ->
+                colorInput.setText(selectedColorHex)
+            }
         }
 
         savePaletteButton.setOnClickListener {
+            for (i in 0 until paletteContainer.childCount) {
+                val view = paletteContainer.getChildAt(i)
+            }
+
             val currentPalette = (0 until paletteContainer.childCount).map {
                 val view = paletteContainer.getChildAt(it)
                 val color = view.tag as? String
@@ -75,26 +98,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
         viewSavedPalettesButton.setOnClickListener {
             val intent = Intent(this, SavedPalettesActivity::class.java)
             startActivity(intent)
         }
+
         settings.setOnClickListener {
             val intent = Intent(this, SettingsInfoActivity::class.java)
             startActivity(intent)
         }
 
-
         // Display the history of selected colors
         displayColorHistory(historyContainer)
     }
 
-    private fun openColorPickerDialog() {
+    private fun openColorPickerDialog(onColorPicked: (String) -> Unit) {
         val colorPickerDialog = AmbilWarnaDialog(this, selectedColor, object : AmbilWarnaDialog.OnAmbilWarnaListener {
             override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
                 selectedColor = color
                 val hexColor = String.format("#%06X", (0xFFFFFF and color))
-                setColor(hexColor)
+                onColorPicked(hexColor)
                 saveColorToHistory(hexColor)
             }
 
@@ -103,20 +127,64 @@ class MainActivity : AppCompatActivity() {
         colorPickerDialog.show()
     }
 
-    private fun setColor(color: String){
-        findViewById<EditText>(R.id.colorInput).setText(color)
+    private fun updatePalette(hexColor: String, schemeType: String) {
+        val palette = when (schemeType) {
+            "Complementary" -> ColorUtils.generateComplementaryColor(hexColor)
+            "Monochromatic" -> ColorUtils.generateMonochromaticColors(hexColor)
+            "Analogous" -> ColorUtils.generateAnalogousColors(hexColor)
+            "Triadic" -> ColorUtils.generateTriadicColors(hexColor)
+            "Tetradic" -> ColorUtils.generateTetradicColors(hexColor)
+            else -> listOf(hexColor)
+        }
+
+        displayPalette(findViewById(R.id.paletteContainer), palette)
     }
 
     private fun displayPalette(container: LinearLayout, colors: List<String>) {
         container.removeAllViews()
         for (color in colors) {
-            val view = View(this)
-            view.setBackgroundColor(Color.parseColor(color))
-            view.tag = color
-            val layoutParams = LinearLayout.LayoutParams(0, 200, 1f)
-            layoutParams.setMargins(8, 0, 8, 0)
-            view.layoutParams = layoutParams
-            container.addView(view)
+            val colorView = LinearLayout(this).apply {
+                val backgroundDrawable = GradientDrawable().apply {
+                    shape = GradientDrawable.RECTANGLE
+                    cornerRadius = 16f
+                    setColor(Color.parseColor(color))
+                }
+                background = backgroundDrawable
+                layoutParams = LinearLayout.LayoutParams(0, 150, 1f).apply {
+                    setMargins(8, 8, 8, 8)
+                }
+                tag = color
+            }
+
+            val colorCodeTextView = TextView(this).apply {
+                text = color
+                setTextColor(Color.BLACK)
+                textSize = 12f
+                gravity = Gravity.CENTER // Center-align the text horizontally and vertically
+                visibility = TextView.GONE
+            }
+
+            colorCodeTextView.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
+
+            colorView.addView(colorCodeTextView)
+
+            colorView.setOnClickListener {
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("Color Code", color)
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(this, "Color code copied to clipboard", Toast.LENGTH_SHORT).show()
+
+                // Show the HEX code temporarily
+                colorCodeTextView.visibility = TextView.VISIBLE
+                Handler(Looper.getMainLooper()).postDelayed({
+                    colorCodeTextView.visibility = TextView.GONE
+                }, 5000) // Show the text for 5 seconds
+            }
+
+            container.addView(colorView)
         }
     }
 
@@ -141,22 +209,48 @@ class MainActivity : AppCompatActivity() {
         val radius = 16f
         val size = 100
         for (color in colorHistory) {
-            val colorView = View(this)
-            val shapeDrawable = ShapeDrawable()
-            val shape = RoundRectShape(
-                floatArrayOf(radius, radius, radius, radius, radius, radius, radius, radius),
-                null, null
-            )
-            shapeDrawable.shape = shape
-            shapeDrawable.paint.color = Color.parseColor(color)
-            colorView.background = shapeDrawable
-            val layoutParams = LinearLayout.LayoutParams(size, size)
-            layoutParams.setMargins(8, 8, 8, 8)
-            colorView.layoutParams = layoutParams
-            colorView.setOnClickListener {
-                setColor(color)
+            val colorView = LinearLayout(this).apply {
+                val backgroundDrawable = GradientDrawable().apply {
+                    shape = GradientDrawable.RECTANGLE
+                    cornerRadius = radius
+                    setColor(Color.parseColor(color))
+                }
+                background = backgroundDrawable
+                layoutParams = LinearLayout.LayoutParams(size, size).apply {
+                    setMargins(8, 8, 8, 8)
+                }
             }
+
+            val colorCodeTextView = TextView(this).apply {
+                text = color
+                setTextColor(Color.BLACK)
+                textSize = 10f
+                gravity = Gravity.CENTER
+                visibility = TextView.GONE
+            }
+
+            colorCodeTextView.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
+
+            colorView.addView(colorCodeTextView)
+
+            colorView.setOnClickListener {
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("Color Code", color)
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(this, "Color code copied to clipboard", Toast.LENGTH_SHORT).show()
+
+                // Show the HEX code temporarily
+                colorCodeTextView.visibility = TextView.VISIBLE
+                Handler(Looper.getMainLooper()).postDelayed({
+                    colorCodeTextView.visibility = TextView.GONE
+                }, 5000) // Show the text for 5 seconds
+            }
+
             container.addView(colorView)
         }
     }
+
 }

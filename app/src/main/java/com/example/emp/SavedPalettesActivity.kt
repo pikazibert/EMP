@@ -32,7 +32,7 @@ class SavedPalettesActivity : AppCompatActivity() {
             displayPalettes(paletteContainer, savedPalettes)
         }
 
-        val filters = listOf("All", "Liked", "2 Col", "3 Col", "4 Col")
+        val filters = listOf("All", "Liked", "2 Colors", "3 Colors", "4 Colors")
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
@@ -51,9 +51,9 @@ class SavedPalettesActivity : AppCompatActivity() {
                 val selectedFilter = filters[position]
                 val filteredPalettes = when (selectedFilter) {
                     "Liked" -> savedPalettes.filter { isLiked(it.second) }
-                    "2 Col" -> savedPalettes.filter { it.first.size == 2 }
-                    "3 Col" -> savedPalettes.filter { it.first.size == 3 }
-                    "4 Col" -> savedPalettes.filter { it.first.size == 4 }
+                    "2 Colors" -> savedPalettes.filter { it.first.size == 2 }
+                    "3 Colors" -> savedPalettes.filter { it.first.size == 3 }
+                    "4 Colors" -> savedPalettes.filter { it.first.size == 4 }
                     else -> savedPalettes
                 }
                 displayPalettes(paletteContainer, filteredPalettes)
@@ -151,14 +151,23 @@ class SavedPalettesActivity : AppCompatActivity() {
         val layoutParams = LinearLayout.LayoutParams(0, 150, 1f)
         layoutParams.setMargins(8, 8, 8, 8)
         colorView.layoutParams = layoutParams
+
         val colorCodeTextView = TextView(this).apply {
             text = color
             setTextColor(Color.BLACK)
             textSize = 12f
-            gravity = Gravity.CENTER
+            gravity = Gravity.CENTER // Center-align the text horizontally and vertically
             visibility = TextView.GONE
         }
+
+        colorCodeTextView.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+
+
         colorView.addView(colorCodeTextView)
+
         colorView.setOnClickListener {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("Color Code", color)
@@ -167,8 +176,9 @@ class SavedPalettesActivity : AppCompatActivity() {
             colorCodeTextView.visibility = TextView.VISIBLE
             Handler(Looper.getMainLooper()).postDelayed({
                 colorCodeTextView.visibility = TextView.GONE
-            }, 10000)
+            }, 5000)
         }
+
         return colorView
     }
 

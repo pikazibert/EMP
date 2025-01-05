@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Settings and Saved Palettes Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,32 +35,37 @@
             android:src="@drawable/open" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/colorInput"
+    <!-- Color Input and Color Picker (Same Line) -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:layout_marginTop="100dp"
-        android:hint="Enter HEX color" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="100dp">
 
+        <EditText
+            android:id="@+id/colorInput"
+            android:layout_width="0dp"
+            android:layout_height="61dp"
+            android:layout_weight="1"
+            android:hint="Enter HEX color" />
+
+        <ImageButton
+            android:id="@+id/colorPickerButton"
+            android:layout_width="61dp"
+            android:layout_height="61dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/colorwheel" />
+    </LinearLayout>
+
+    <!-- Scheme Spinner -->
     <Spinner
         android:id="@+id/schemeSpinner"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_marginTop="16dp" />
 
-    <Button
-        android:id="@+id/generateButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Generate Palette"
-        android:layout_marginTop="16dp" />
-
-    <Button
-        android:id="@+id/colorPickerButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Pick Color" />
-
+    <!-- Palette Container -->
     <LinearLayout
         android:id="@+id/paletteContainer"
         android:layout_width="match_parent"
@@ -67,6 +73,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="16dp" />
 
+    <!-- Save Palette Button -->
     <Button
         android:id="@+id/savePaletteButton"
         android:layout_width="match_parent"
@@ -74,6 +81,7 @@
         android:text="Save Palette"
         android:layout_marginTop="16dp" />
 
+    <!-- History Container -->
     <LinearLayout
         android:id="@+id/historyContainer"
         android:layout_width="match_parent"
