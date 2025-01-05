@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         val viewSavedPalettesButton = findViewById<ImageButton>(R.id.viewSavedPalettesButton)
         val settings = findViewById<ImageButton>(R.id.settingsButton)
         val paletteContainer = findViewById<LinearLayout>(R.id.paletteContainer)
-        val historyContainer = findViewById<LinearLayout>(R.id.historyContainer)  // This is the container for history
+        val historyContainer = findViewById<LinearLayout>(R.id.historyContainer)
 
         // Existing spinner setup
         val schemes = listOf("Complementary", "Monochromatic", "Analogous", "Triadic", "Tetradic")
@@ -129,7 +129,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveColorToHistory(color: String) {
-        // Add color to history, remove the oldest if there are more than 5
         if (colorHistory.size >= 5) {
             colorHistory.removeAt(0)
         }
@@ -139,15 +138,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayColorHistory(container: LinearLayout) {
         container.removeAllViews()
-
-        val radius = 16f  // Adjust the radius as needed
-        val size = 100  // Adjust the size of the square as needed
-
-        // Display the colors from the history
+        val radius = 16f
+        val size = 100
         for (color in colorHistory) {
             val colorView = View(this)
-
-            // Create a rounded square shape
             val shapeDrawable = ShapeDrawable()
             val shape = RoundRectShape(
                 floatArrayOf(radius, radius, radius, radius, radius, radius, radius, radius),
@@ -155,20 +149,13 @@ class MainActivity : AppCompatActivity() {
             )
             shapeDrawable.shape = shape
             shapeDrawable.paint.color = Color.parseColor(color)
-
-            // Set the drawable as the background of the view
             colorView.background = shapeDrawable
-
-            // Set size and margins for the color views
-            val layoutParams = LinearLayout.LayoutParams(size, size)  // Square size
+            val layoutParams = LinearLayout.LayoutParams(size, size)
             layoutParams.setMargins(8, 8, 8, 8)
             colorView.layoutParams = layoutParams
-
-            // Set onClickListener to update the colorInput
             colorView.setOnClickListener {
                 setColor(color)
             }
-
             container.addView(colorView)
         }
     }
