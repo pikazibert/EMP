@@ -95,11 +95,7 @@ class SavedPalettesActivity : AppCompatActivity() {
                 paletteRow.addView(colorView)
             }
             val likeButton = ImageView(this).apply {
-                if (DarkOn()) {
-                    setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like_dark)
-                } else {
-                    setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like)
-                }
+                setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like)
                 layoutParams = LinearLayout.LayoutParams(60, 60).apply {
                     setMargins(0, 10, 0, 0)
                 }
@@ -107,19 +103,11 @@ class SavedPalettesActivity : AppCompatActivity() {
                     val editor = sharedPreferences.edit()
                     editor.putBoolean("liked_$key", !isLiked(key))
                     editor.apply()
-                    if (DarkOn()) {
-                        setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like_dark)
-                    } else {
-                        setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like)
-                    }
+                    setImageResource(if (isLiked(key)) R.drawable.like else R.drawable.no_like)
                 }
             }
             val shareButton = ImageView(this).apply {
-                if (DarkOn()) {
-                    setImageResource(R.drawable.share_dark)
-                } else {
-                    setImageResource(R.drawable.share)
-                }
+                setImageResource(R.drawable.share)
                 layoutParams = LinearLayout.LayoutParams(60, 60).apply {
                     setMargins(0, 0, 0, 10)
                 }
@@ -196,11 +184,5 @@ class SavedPalettesActivity : AppCompatActivity() {
 
     private fun isLiked(key: String): Boolean {
         return sharedPreferences.getBoolean("liked_$key", false)
-    }
-
-    private fun DarkOn(): Boolean {
-        val nightModeFlags =
-            resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
-        return nightModeFlags == android.content.res.Configuration.UI_MODE_NIGHT_YES
     }
 }
