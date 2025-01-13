@@ -82,10 +82,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         savePaletteButton.setOnClickListener {
-            for (i in 0 until paletteContainer.childCount) {
-                val view = paletteContainer.getChildAt(i)
-            }
-
             val currentPalette = (0 until paletteContainer.childCount).map {
                 val view = paletteContainer.getChildAt(it)
                 val color = view.tag as? String
