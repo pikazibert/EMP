@@ -68,8 +68,11 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
   - `MainActivity`: Glavna dejavnost za generiranje in vizualizacijo barvnih palet.
   - `SavedPalettesActivity`: Aktivnost za pregled shranjenih barvnih palet.
   - `SettingsInfoActivity`: Aktivnost za upravljanje nastavitev, kot so tema aplikacije in brisanje podatkov.
+  - `OnlinePallets`: Aktivnost, ki omogoča nalaganje in prikaz barvnih palet iz spletne storitve **ColourLovers** preko zunanjih API-jev.
+    
 - **Shranjevanje podatkov**:
   - Uporaba `SharedPreferences` za trajno shranjevanje barvnih palet, zgodovine in nastavitev teme.
+    
 - **Logika generiranja**:
   - Implementirana v objektu `ColorUtils`, ki vsebuje metode za izračun barvnih shem.
 
@@ -88,8 +91,25 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
 
 ---
 
-## Uporaba zunanjih API-jev
-- TODO
+## **Uporaba zunanjih API-jev**
+
+Aplikacija **MyPalette** uporablja zunanji API za pridobivanje barvnih palet iz spletne storitve **ColourLovers**. API omogoča dostop do različnih barvnih palet, ki so razvrščene v več kategorij, kot so **popularne**, **nove** in **naključne**. Aplikacija uporablja te podatke za prikazovanje barvnih palet v uporabniškem vmesniku.
+
+### **Uporaba API-ja**:
+- API klici se izvajajo ob izbiri kategorije v spustnem seznamu, kjer uporabnik izbere vrsto barvnih palet (npr. "Popular", "New", "Random").
+- Klic API-ja se izvede z uporabo knjižnice **Volley**, ki omogoča asinhrono nalaganje podatkov iz API-ja in obdelavo rezultatov.
+- API vrača podatke v obliki **JSON**, ki jih aplikacija obdeluje in prikazuje uporabniku v obliki barvnih palet.
+
+### **Pridobivanje podatkov iz API-ja**:
+Aplikacija uporablja naslednje API konce:
+- **Popularne palete**: `https://www.colourlovers.com/api/palettes/top?format=json&numResults=10`
+- **Nove palete**: `https://www.colourlovers.com/api/palettes/new?format=json&numResults=10`
+- **Naključne palete**: `https://www.colourlovers.com/api/palettes/random?format=json&numResults=10`
+
+### **Uporabniški vmesnik**:
+- Ko uporabnik izbere eno od kategorij (npr. "Popular"), aplikacija pokliče ustrezen API in prikaže seznam barvnih palet.
+- Vsaka paleta vsebuje seznam barv (HEX kode), ki se prikažejo uporabniku skupaj z naslovom palete.
+
 
 ---
 
