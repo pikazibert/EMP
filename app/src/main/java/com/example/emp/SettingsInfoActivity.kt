@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,8 @@ class SettingsInfoActivity : AppCompatActivity() {
         applySavedTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings_info)
+
+        Log.d("SettingsInfoActivityLog", "onCreate called")
 
         val deleteAllDataButton: Button = findViewById(R.id.deleteAllData)
         deleteAllDataButton.setOnClickListener {
@@ -34,7 +37,7 @@ class SettingsInfoActivity : AppCompatActivity() {
         }
 
         val spinner: Spinner = findViewById(R.id.tema)
-        val options = arrayOf("Auto", "Day", "Night") // Spinner options
+        val options = arrayOf("Auto", "Day", "Night")
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, options)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -74,14 +77,13 @@ class SettingsInfoActivity : AppCompatActivity() {
             override fun onNothingSelected(parentView: AdapterView<*>?) {}
         }
 
-        // Description text
         val descriptionText = findViewById<TextView>(R.id.descriptionText)
         val description = """
         <b>MyPalette</b> is an open-source interactive color palette generator designed to help you create beautiful and harmonious color schemes with ease. 
         It empowers designers, developers, and creatives with intuitive tools to explore a wide range of color combinations and themes.  <br><br>
-        
+
         Key features include the ability to <b>save</b>, <b>favorite</b>, and <b>share</b> your palettes effortlessly.<br><br>
-        
+
         <b>Harmony modes:</b><br>
         """.trimIndent()
 
@@ -90,6 +92,31 @@ class SettingsInfoActivity : AppCompatActivity() {
         } else {
             Html.fromHtml(description)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("SettingsInfoActivityLog", "onStart called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("SettingsInfoActivityLog", "onResume called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("SettingsInfoActivityLog", "onPause called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("SettingsInfoActivityLog", "onStop called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("SettingsInfoActivityLog", "onDestroy called")
     }
 
     private fun applySavedTheme() {

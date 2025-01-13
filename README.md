@@ -17,7 +17,8 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
 - **Programski jezik**: Kotlin.
 - **Knjižnice**:
   - **AmbilWarna**: Barvni izbirnik za enostavno izbiro barv.
-  - **Android Jetpack Components**: ViewModel, StateFlow, in LiveData za upravljanje stanja.
+  - **AppCompatDelegate**: Omogoča upravljanje temne in svetle teme aplikacije.
+  - **ClipData in ClipboardManager**: Omogočata kopiranje podatkov v odložišče.
   
 ---
 
@@ -28,66 +29,92 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
 
 ## Kratek opis implementiranih funkcionalnosti in primerov uporabe
 
-### 1. Generiranje barvne palete
-- Uporabnik vnese HEX barvno kodo ali uporabi barvni izbirnik.
-- Izbira med različnimi barvnimi shemami, kot so komplementarne, analogne itd.
-- Vizualizacija ustvarjene barvne palete.
-- Možnost shranjevanja palet za kasnejšo uporabo.
+### 1. **MainActivity - generiranje barvnih palet**
+- Uporabnik vnese HEX barvno kodo ali uporabi barvni izbirnik, da začne z generiranjem barvne palete.
+- Izbira med različnimi barvnimi shemami (privzeta je komplementarna):
+  - Komplementarne,
+  - Monokromatske,
+  - Analogne,
+  - Triadične,
+  - Tetradične.
+- Vizualizacija generirane barvne palete se posodobi ob vsaki spremembi barve ali izbire druge barvne sheme.
+- Uporabnik ima možnost shranjevanja palet za kasnejšo uporabo.
+- Aplikacija omogoča kopiranje HEX kode barve v odložišče z enim klikom na barvo.
+- Na dnu strani je zgodovina zadnjih 5 izbranih barv prek barvenga izbirnika ali HEX kode, uporabnik lahko kopira kodo in to barvo ponovno uporabi za generiranje palet.
 
-### 2. Pregled shranjenih palet
-- Uporabnik lahko pregleda vse shranjene barvne palete.
-- Dodajanje palet med priljubljene in deljenje.
+### 2. **SavedPalettesActivity - pregled shranjenih palet**
+- Prikaz vseh shranjenih barvnih palet.
+- Gumb za deljenje barvne palete (kopiranje v odložiče ali prek drugih aplikacij)
+- Gumb za dodajanje barvne palete med priljubljene
+- Možnost filtriranja palet na več načinov:
+  - All - prikaže vse barvne  palete (privzeta opcija),
+  - 2 Colors - prikaže komplementarne barvne palete,
+  - 3 colors - prikaže monokromatske, analogne in triadične barvne palete,
+  - 4 colors - prikaže tetradične barrvne palete
+- Kopiranje barve v odložišče s pritiskom na barvo.
 
-### 3. Dodatne funkcionalnosti
-- Kopiranje HEX kode barve v odložišče z enim klikom.
-- Prikaz zgodovine izbranih barv.
-- Brisanje podatkov.
+### 3. **SettingsInfoActivity - nastavitve**
+- Kratek opis aplikacije in infografika barvnih shem.
+- Možnost spremembe teme:
+  - Auto (zazna preferenco naprave, privzeta),
+  - Day (oz. light mode, belo ozaadje)
+  - Night (oz. dark mode, temno sivo ozadje)
+- Možnost brisanja podatkov s pritiskom na gumb in potrditev izbrisa vseh barvih shem.
   
 ---
 
 ## Kratek opis arhitekturne zasnove aplikacije
-- **MVVM Arhitektura**:
-  - **Model**: Upravljanje podatkovnih struktur (barvne palete, zgodovina).
-  - **ViewModel**: Upravljanje stanja UI in povezava z uporabniškim vmesnikom.
-  - **View**: Prikaz podatkov in interakcija z uporabnikom.
-
-- **Komponente Jetpack**:
-  - **ViewModel**: Za upravljanje življenjskega cikla aktivnosti.
-  - **StateFlow**: Za spremljanje stanja v realnem času.
+- **Glavne aktivnosti**:
+  - `MainActivity`: Glavna dejavnost za generiranje in vizualizacijo barvnih palet.
+  - `SavedPalettesActivity`: Aktivnost za pregled shranjenih barvnih palet.
+  - `SettingsInfoActivity`: Aktivnost za upravljanje nastavitev, kot so tema aplikacije in brisanje podatkov.
+- **Shranjevanje podatkov**:
+  - Uporaba `SharedPreferences` za trajno shranjevanje barvnih palet, zgodovine in nastavitev teme.
+- **Logika generiranja**:
+  - Implementirana v objektu `ColorUtils`, ki vsebuje metode za izračun barvnih shem.
 
 ---
 
 ## Kratek opis življenjskega cikla aktivnosti
-- **OnCreate**: Inicializacija uporabniškega vmesnika, nastavitev privzetih barvnih shem in funkcionalnosti.
-- **OnPause**: Shrani trenutno stanje barvne palete.
-- **OnResume**: Obnovi zadnje stanje aplikacije.
-
+- **`onCreate`**: Inicializira uporabniški vmesnik in nastavitve.
+- **`onPause`**: Shrani trenutno stanje barvne palete in temo.
+- **`onResume`**: Obnovi zadnje stanje aplikacije (barve, tema).
+- **`onDestroy`**: Čiščenje virov in priprava na zaprtje aplikacije.
+- 
 ---
 
 ## Uporaba ViewModel, UI State in StateFlow
-- **ViewModel**: Upravljanje stanja barvne palete in shranjenih podatkov.
-- **UI State**: Zajema trenutno izbrano barvno shemo in barvo.
-- **StateFlow**: Posodablja uporabniški vmesnik v realnem času ob spremembi barvne sheme ali vnosa HEX kode.
+- / 
 
 ---
 
 ## Uporaba zunanjih API-jev
-- **AmbilWarna**: Knjižnica za izbiro barv, ki omogoča intuitiven barvni izbirnik.
-- **ClipboardManager**: Omogoča kopiranje HEX kod barv v odložišče.
+- TODO
 
 ---
 
-## Podatkovni model (shema)
-### Shema podatkov
-- **Barvna paleta**:
-  - ID (unikaten identifikator)
-  - Seznam barv (HEX kode)
-  - Označeno kot priljubljeno (boolean)
-- **Zgodovina**:
-  - Zadnjih 5 izbranih barv
+## **Podatkovni model (shema)**
 
-### Opis podatkovnega modela
-Podatkovni model temelji na enostavni shrambi barvnih palet in zgodovine v `SharedPreferences`. Vsaka paleta vsebuje seznam barv, status priljubljenosti in čas shranjevanja. Zgodovina beleži zadnjih 5 izbranih barv.
+### **Shema podatkov**
+- **Barvna paleta**:
+  - **ID**: Unikaten identifikator.
+  - **Seznam barv**: HEX kode barv v paleti.
+  - **Priljubljena**: Boolean, označuje, ali je paleta označena kot priljubljena.
+- **Zgodovina**:
+  - Zadnjih 5 izbranih barv (HEX kode).
+- **Tema**:
+  - Izbrana tema aplikacije (Auto, Day, Night).
+
+### **Opis podatkovnega modela**
+- Podatkovni model temelji na enostavni uporabi `SharedPreferences` za trajno shranjevanje barvnih palet in zgodovine.
+- **Barvna paleta**:
+  - Vsebuje seznam HEX kod, status priljubljenosti in čas shranjevanja.
+  - Shranjena v obliki ključ-vrednost, kjer ključ predstavlja ID palete, vrednost pa seznam barv.
+- **Zgodovina**:
+  - Beleži zadnjih 5 izbranih barv in se posodablja z vsakim novim izborom barve.
+- **Tema**:
+  - Shranjena kot niz (Auto, Day, Night) in se uporablja za nastavitev videza aplikacije.
+
 
 
 

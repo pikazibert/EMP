@@ -6,14 +6,15 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.RoundRectShape
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import yuku.ambilwarna.AmbilWarnaDialog
 import android.text.TextWatcher
 import android.text.Editable
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         applySavedTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        Log.d("MainActivityLog", "onCreate called")
 
         val colorInput = findViewById<EditText>(R.id.colorInput)
         val schemeSpinner = findViewById<Spinner>(R.id.schemeSpinner)
@@ -96,7 +99,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         viewSavedPalettesButton.setOnClickListener {
             val intent = Intent(this, SavedPalettesActivity::class.java)
             startActivity(intent)
@@ -114,6 +116,40 @@ class MainActivity : AppCompatActivity() {
 
         // Display the history of selected colors
         displayColorHistory(historyContainer)
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("MainActivityLog", "onRestart called - history is displayed")
+        displayColorHistory(findViewById(R.id.historyContainer))
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("MainActivityLog", "onStart called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("MainActivityLog", "onResume called")
+        val lastColor = sharedPreferences.getString("lastSelectedColor", "#000000")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("MainActivityLog", "onPause called - last color saved")
+        sharedPreferences.edit().putString("lastSelectedColor", "#${Integer.toHexString(selectedColor)}").apply()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("MainActivityLog", "onStop called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("MainActivityLog", "onDestroy called")
+        Log.d("MainActivityLog", "Cleaning up resources before activity is destroyed.")
     }
 
     private fun openColorPickerDialog(onColorPicked: (String) -> Unit) {
@@ -163,7 +199,7 @@ class MainActivity : AppCompatActivity() {
                 text = color
                 setTextColor(Color.BLACK)
                 textSize = 12f
-                gravity = Gravity.CENTER // Center-align the text horizontally and vertically
+                gravity = Gravity.CENTER
                 visibility = TextView.GONE
             }
 
@@ -179,11 +215,10 @@ class MainActivity : AppCompatActivity() {
                 val clip = ClipData.newPlainText("Color Code", color)
                 clipboard.setPrimaryClip(clip)
 
-                // Show the HEX code temporarily
                 colorCodeTextView.visibility = TextView.VISIBLE
                 Handler(Looper.getMainLooper()).postDelayed({
                     colorCodeTextView.visibility = TextView.GONE
-                }, 5000) // Show the text for 5 seconds
+                }, 5000)
             }
 
             container.addView(colorView)
@@ -244,11 +279,10 @@ class MainActivity : AppCompatActivity() {
                 val clip = ClipData.newPlainText("Color Code", color)
                 clipboard.setPrimaryClip(clip)
 
-                // Show the HEX code temporarily
                 colorCodeTextView.visibility = TextView.VISIBLE
                 Handler(Looper.getMainLooper()).postDelayed({
                     colorCodeTextView.visibility = TextView.GONE
-                }, 5000) // Show the text for 5 seconds
+                }, 5000)
             }
 
             container.addView(colorView)
@@ -263,5 +297,4 @@ class MainActivity : AppCompatActivity() {
             "Day" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
-
 }
