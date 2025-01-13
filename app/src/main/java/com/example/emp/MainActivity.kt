@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity
 import yuku.ambilwarna.AmbilWarnaDialog
 import android.text.TextWatcher
 import android.text.Editable
-import android.util.Log
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatDelegate
 
@@ -39,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         val colorPickerButton = findViewById<ImageButton>(R.id.colorPickerButton)
         val savePaletteButton = findViewById<Button>(R.id.savePaletteButton)
         val viewSavedPalettesButton = findViewById<ImageButton>(R.id.viewSavedPalettesButton)
+        val viewOnlinePalletsButton = findViewById<ImageButton>(R.id.viewOnlinePalletesButton)
         val settings = findViewById<ImageButton>(R.id.settingsButton)
 
         val schemes = listOf("Complementary", "Monochromatic", "Analogous", "Triadic", "Tetradic")
@@ -104,6 +104,11 @@ class MainActivity : AppCompatActivity() {
 
         settings.setOnClickListener {
             val intent = Intent(this, SettingsInfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        viewOnlinePalletsButton.setOnClickListener {
+            val intent = Intent(this, OnlinePallets::class.java)
             startActivity(intent)
         }
 
@@ -185,11 +190,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun savePaletteToPreferences(palette: List<String>) {
+    private fun savePaletteToPreferences(palette: List<String>, isDownloaded: Boolean = false) {
         val editor = sharedPreferences.edit()
         val key = "palette_${System.currentTimeMillis()}"
         editor.putStringSet(key, palette.toSet())
         editor.putBoolean("liked_$key", false)
+        editor.putBoolean("downloaded_$key", isDownloaded)
         editor.apply()
     }
 

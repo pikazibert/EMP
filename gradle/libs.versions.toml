@@ -12,6 +12,7 @@ constraintlayout = "2.1.4"
 swipeRevealLayout = "1.4.1"
 swipereveallayoutVersion = "1.4.0"
 library = "1.2.0"
+volley = "1.2.1"
 
 
 [libraries]
@@ -26,6 +27,7 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 swipe-reveal-layout = { group = "com.chauthai.swipereveallayout", name = "swipe-reveal-layout", version.ref = "swipeRevealLayout" }
 swipereveallayout = { group = "com.github.hydrated", name = "SwipeRevealLayout", version.ref = "swipereveallayoutVersion" }
 library = { group = "com.daimajia.swipelayout", name = "library", version.ref = "library" }
+volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

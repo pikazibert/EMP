@@ -25,7 +25,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
-
+        <ImageButton
+            android:id="@+id/viewOnlinePalletesButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/www" />
         <ImageButton
             android:id="@+id/viewSavedPalettesButton"
             android:layout_width="29dp"
