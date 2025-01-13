@@ -17,6 +17,8 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
 - **Programski jezik**: Kotlin.
 - **Knjižnice**:
   - **AmbilWarna**: Barvni izbirnik za enostavno izbiro barv.
+  - **AppCompatDelegate**: Omogoča upravljanje temne in svetle teme aplikacije.
+  - **ClipData in ClipboardManager**: Omogočata kopiranje podatkov v odložišče.
   
 ---
 
@@ -35,12 +37,12 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
   - Analogne,
   - Triadične,
   - Tetradične.
-- Vizualizacija generirane barvne palete se posodobi ob vsaki sprembi barve ali izbire druge barvne sheme.
+- Vizualizacija generirane barvne palete se posodobi ob vsaki spremembi barve ali izbire druge barvne sheme.
 - Uporabnik ima možnost shranjevanja palet za kasnejšo uporabo.
 - Aplikacija omogoča kopiranje HEX kode barve v odložišče z enim klikom na barvo.
 - Na dnu strani je zgodovina zadnjih 5 izbranih barv prek barvenga izbirnika ali HEX kode, uporabnik lahko kopira kodo in to barvo ponovno uporabi za generiranje palet.
 
-### 2. **SavedPalettesActivity - pregled shrajenih palet**
+### 2. **SavedPalettesActivity - pregled shranjenih palet**
 - Prikaz vseh shranjenih barvnih palet.
 - Gumb za deljenje barvne palete (kopiranje v odložiče ali prek drugih aplikacij)
 - Gumb za dodajanje barvne palete med priljubljene
@@ -48,8 +50,8 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
   - All - prikaže vse barvne  palete (privzeta opcija),
   - 2 Colors - prikaže komplementarne barvne palete,
   - 3 colors - prikaže monokromatske, analogne in triadične barvne palete,
-  - 4 colors - prikaže tetrdične barrvne palete
-- Kopiranje barve v odložiče s pritiskom na barvo.
+  - 4 colors - prikaže tetradične barrvne palete
+- Kopiranje barve v odložišče s pritiskom na barvo.
 
 ### 3. **SettingsInfoActivity - nastavitve**
 - Kratek opis aplikacije in infografika barvnih shem.
@@ -57,7 +59,7 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
   - Auto (zazna preferenco naprave, privzeta),
   - Day (oz. light mode, belo ozaadje)
   - Night (oz. dark mode, temno sivo ozadje)
-- Možnost brisanja podatov - vseh barvih shem
+- Možnost brisanja podatkov s pritiskom na gumb in potrditev izbrisa vseh barvih shem.
   
 ---
 
@@ -91,19 +93,28 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
 
 ---
 
-## Podatkovni model (shema)
-### Shema podatkov
-- **Barvna paleta**:
-  - ID (unikaten identifikator)
-  - Seznam barv (HEX kode)
-  - Označeno kot priljubljeno (boolean)
-- **Zgodovina**:
-  - Zadnjih 5 izbranih barv
-- **Tema**:
-  - 
+## **Podatkovni model (shema)**
 
-### Opis podatkovnega modela
-Podatkovni model temelji na enostavni shrambi barvnih palet in zgodovine v `SharedPreferences`. Vsaka paleta vsebuje seznam barv, status priljubljenosti in čas shranjevanja. Zgodovina beleži zadnjih 5 izbranih barv.
+### **Shema podatkov**
+- **Barvna paleta**:
+  - **ID**: Unikaten identifikator.
+  - **Seznam barv**: HEX kode barv v paleti.
+  - **Priljubljena**: Boolean, označuje, ali je paleta označena kot priljubljena.
+- **Zgodovina**:
+  - Zadnjih 5 izbranih barv (HEX kode).
+- **Tema**:
+  - Izbrana tema aplikacije (Auto, Day, Night).
+
+### **Opis podatkovnega modela**
+- Podatkovni model temelji na enostavni uporabi `SharedPreferences` za trajno shranjevanje barvnih palet in zgodovine.
+- **Barvna paleta**:
+  - Vsebuje seznam HEX kod, status priljubljenosti in čas shranjevanja.
+  - Shranjena v obliki ključ-vrednost, kjer ključ predstavlja ID palete, vrednost pa seznam barv.
+- **Zgodovina**:
+  - Beleži zadnjih 5 izbranih barv in se posodablja z vsakim novim izborom barve.
+- **Tema**:
+  - Shranjena kot niz (Auto, Day, Night) in se uporablja za nastavitev videza aplikacije.
+
 
 
 
