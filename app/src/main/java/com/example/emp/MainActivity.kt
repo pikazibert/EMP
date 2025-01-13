@@ -18,8 +18,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import yuku.ambilwarna.AmbilWarnaDialog
 import android.text.TextWatcher
 import android.text.Editable
-import android.view.Gravity
-import androidx.appcompat.app.AppCompatDelegate
 
 
 class MainActivity : AppCompatActivity() {

@@ -253,7 +253,7 @@ class OnlinePallets : AppCompatActivity() {
         val storedPalettes = sharedPreferences.all
 
         for (entry in storedPalettes) {
-            val savedPalette = entry.value as? Set<String>
+            val savedPalette = entry.value as? Set<*>
             if (savedPalette != null && savedPalette == palette.toSet()) {
                 editor.remove(entry.key)  // Odstrani to paleto po ključu
                 editor.apply()
@@ -266,7 +266,7 @@ class OnlinePallets : AppCompatActivity() {
         val storedPalettes = sharedPreferences.all
         for (entry in storedPalettes) {
             // entry.key je lahko "palette_xxxxxxxx" in entry.value je Set<String>
-            val savedPalette = entry.value as? Set<String>
+            val savedPalette = entry.value as? Set<*>
             if (savedPalette != null && savedPalette == palette.toSet()) {
                 return true
             }
