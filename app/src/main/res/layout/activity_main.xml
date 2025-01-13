@@ -31,6 +31,7 @@
             android:layout_height="33dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
+            android:layout_marginRight="7dp"
             android:src="@drawable/www" />
         <ImageButton
             android:id="@+id/viewSavedPalettesButton"

@@ -36,7 +36,7 @@ class SavedPalettesActivity : AppCompatActivity() {
             displayPalettes(paletteContainer, savedPalettes)
         }
 
-        val filters = listOf("All", "Liked", "2 Colors", "3 Colors", "4 Colors")
+        val filters = listOf("All", "Liked", "2 Colors", "3 Colors", "4 Colors", "5 Colors")
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
@@ -58,6 +58,7 @@ class SavedPalettesActivity : AppCompatActivity() {
                     "2 Colors" -> savedPalettes.filter { it.first.size == 2 }
                     "3 Colors" -> savedPalettes.filter { it.first.size == 3 }
                     "4 Colors" -> savedPalettes.filter { it.first.size == 4 }
+                    "5 Colors" -> savedPalettes.filter { it.first.size == 5}
                     else -> savedPalettes
                 }
                 displayPalettes(paletteContainer, filteredPalettes)
