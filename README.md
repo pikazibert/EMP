@@ -12,14 +12,16 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
 
 ---
 
-## Tehnologije
+## **Tehnologije**
 - **Android Studio**: Razvojno okolje za mobilne aplikacije.
-- **Programski jezik**: Kotlin.
+- **Programski jezik**: **Kotlin**.
 - **Knjižnice**:
   - **AmbilWarna**: Barvni izbirnik za enostavno izbiro barv.
   - **AppCompatDelegate**: Omogoča upravljanje temne in svetle teme aplikacije.
   - **ClipData in ClipboardManager**: Omogočata kopiranje podatkov v odložišče.
-  
+- **Zunanji API**:
+  - **ColourLovers API**: Uporablja se za pridobivanje barvnih palet iz spletne storitve **ColourLovers**
+
 ---
 
 ## Povezava do repozitorija na GitHubu
@@ -62,7 +64,7 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
   - Night (oz. dark mode, temno sivo ozadje)
 - Možnost brisanja podatkov s pritiskom na gumb in potrditev izbrisa vseh barvih shem.
 
-### 4. **`OnlinePallets` - Nalaganje barvnih palet iz spletnih virov**
+### 4. **OnlinePallets - Nalaganje barvnih palet iz spletnih virov**
 - Aktivnost, ki omogoča nalaganje barvnih palet iz spletne storitve **ColourLovers** preko zunanjih API-jev.
 - Uporabnik lahko izbira med različnimi kategorijami barvnih palet:
   - **Popular**: Prikazuje najbolj priljubljene barvne palete.
