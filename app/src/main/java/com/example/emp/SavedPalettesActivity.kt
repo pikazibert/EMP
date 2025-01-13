@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class SavedPalettesActivity : AppCompatActivity() {
@@ -117,6 +118,11 @@ class SavedPalettesActivity : AppCompatActivity() {
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
                 setPadding(0, 16, 0, 16)
+                setOnLongClickListener {
+                    // Ko uporabnik dolgi pritisk, prikaži možnosti
+                    showRemove(palette)
+                    true  // Vrni true, da preprečimo izvedbo drugih dejanj (če je potrebno)
+                }
             }
             for (color in palette) {
                 val colorView = createColorView(color)
@@ -220,5 +226,37 @@ class SavedPalettesActivity : AppCompatActivity() {
 
     private fun isLiked(key: String): Boolean {
         return sharedPreferences.getBoolean("liked_$key", false)
+    }
+    private fun showRemove(palette: List<String>) {
+        val options = arrayOf("Unsave Palette", "Cancel")
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Choose Option")
+            .setItems(options) { dialog, which ->
+                when (which) {
+                    0 -> {
+                        unsavePalette(palette)
+                        Toast.makeText(applicationContext, "Palette removed!", Toast.LENGTH_SHORT).show()
+                    }
+                    1 -> {
+                        dialog.dismiss()
+                    }
+                }
+            }
+        builder.create().show()
+    }
+    private fun unsavePalette(palette: List<String>) {
+        val editor = sharedPreferences.edit()
+        val storedPalettes = sharedPreferences.all
+
+        for (entry in storedPalettes) {
+            val savedPalette = entry.value as? Set<*>
+            if (savedPalette != null && savedPalette == palette.toSet()) {
+                editor.remove(entry.key)  // Odstrani to paleto po ključu
+                editor.apply()
+                Toast.makeText(applicationContext, "Palette removed!", Toast.LENGTH_SHORT).show()
+                break
+            }
+        }
     }
 }
