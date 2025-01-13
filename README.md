@@ -17,7 +17,6 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
 - **Programski jezik**: Kotlin.
 - **Knjižnice**:
   - **AmbilWarna**: Barvni izbirnik za enostavno izbiro barv.
-  - **Android Jetpack Components**: ViewModel, StateFlow, in LiveData za upravljanje stanja.
   
 ---
 
@@ -46,14 +45,8 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
 ---
 
 ## Kratek opis arhitekturne zasnove aplikacije
-- **MVVM Arhitektura**:
-  - **Model**: Upravljanje podatkovnih struktur (barvne palete, zgodovina).
-  - **ViewModel**: Upravljanje stanja UI in povezava z uporabniškim vmesnikom.
-  - **View**: Prikaz podatkov in interakcija z uporabnikom.
+- opis
 
-- **Komponente Jetpack**:
-  - **ViewModel**: Za upravljanje življenjskega cikla aktivnosti.
-  - **StateFlow**: Za spremljanje stanja v realnem času.
 
 ---
 
@@ -65,15 +58,12 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
 ---
 
 ## Uporaba ViewModel, UI State in StateFlow
-- **ViewModel**: Upravljanje stanja barvne palete in shranjenih podatkov.
-- **UI State**: Zajema trenutno izbrano barvno shemo in barvo.
-- **StateFlow**: Posodablja uporabniški vmesnik v realnem času ob spremembi barvne sheme ali vnosa HEX kode.
+- / 
 
 ---
 
 ## Uporaba zunanjih API-jev
-- **AmbilWarna**: Knjižnica za izbiro barv, ki omogoča intuitiven barvni izbirnik.
-- **ClipboardManager**: Omogoča kopiranje HEX kod barv v odložišče.
+- TODO
 
 ---
 
@@ -85,6 +75,8 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
   - Označeno kot priljubljeno (boolean)
 - **Zgodovina**:
   - Zadnjih 5 izbranih barv
+- **Tema**:
+  - 
 
 ### Opis podatkovnega modela
 Podatkovni model temelji na enostavni shrambi barvnih palet in zgodovine v `SharedPreferences`. Vsaka paleta vsebuje seznam barv, status priljubljenosti in čas shranjevanja. Zgodovina beleži zadnjih 5 izbranih barv.
