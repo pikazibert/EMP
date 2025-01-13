@@ -9,6 +9,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.*
@@ -21,6 +22,8 @@ class SavedPalettesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_saved_palettes)
+
+        Log.d("SavedPalettesActivityLog", "onCreate called")
 
         val paletteContainer = findViewById<LinearLayout>(R.id.savedPaletteContainer)
         val spinner = findViewById<Spinner>(R.id.filterDropdown)
@@ -63,6 +66,31 @@ class SavedPalettesActivity : AppCompatActivity() {
                 // No action needed
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("SavedPalettesActivityLog", "onStart called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("SavedPalettesActivityLog", "onResume called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("SavedPalettesActivityLog", "onPause called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("SavedPalettesActivityLog", "onStop called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("SavedPalettesActivityLog", "onDestroy called")
     }
 
     private fun loadAllPalettes(): List<Pair<List<String>, String>> {
@@ -156,7 +184,7 @@ class SavedPalettesActivity : AppCompatActivity() {
             text = color
             setTextColor(Color.BLACK)
             textSize = 12f
-            gravity = Gravity.CENTER // Center-align the text horizontally and vertically
+            gravity = Gravity.CENTER
             visibility = TextView.GONE
         }
 
@@ -164,7 +192,6 @@ class SavedPalettesActivity : AppCompatActivity() {
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.MATCH_PARENT
         )
-
 
         colorView.addView(colorCodeTextView)
 
