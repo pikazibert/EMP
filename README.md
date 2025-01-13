@@ -51,6 +51,7 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
   - 2 Colors - prikaže komplementarne barvne palete,
   - 3 colors - prikaže monokromatske, analogne in triadične barvne palete,
   - 4 colors - prikaže tetradične barrvne palete
+  - 5 colors - shranjene palete z interneta
 - Kopiranje barve v odložišče s pritiskom na barvo.
 
 ### 3. **SettingsInfoActivity - nastavitve**
@@ -60,6 +61,20 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
   - Day (oz. light mode, belo ozaadje)
   - Night (oz. dark mode, temno sivo ozadje)
 - Možnost brisanja podatkov s pritiskom na gumb in potrditev izbrisa vseh barvih shem.
+
+### 4. **`OnlinePallets` - Nalaganje barvnih palet iz spletnih virov**
+- Aktivnost, ki omogoča nalaganje barvnih palet iz spletne storitve **ColourLovers** preko zunanjih API-jev.
+- Uporabnik lahko izbira med različnimi kategorijami barvnih palet:
+  - **Popular**: Prikazuje najbolj priljubljene barvne palete.
+  - **New**: Prikazuje nove barvne palete.
+  - **Random**: Prikazuje naključne barvne palete.
+- Aplikacija uporablja knjižnico **Volley** za asinhrono nalaganje podatkov iz API-ja.
+- Ko uporabnik izbere kategorijo, aplikacija pokliče ustrezen API in prikaže seznam barvnih palet, vsaka z naborom barv v HEX formatu.
+- Vsaka barvna paleta je prikazana z možnostjo:
+  - **Shranjevanja**: Uporabnik lahko shrani paleto v svoje shranjene palete.
+  - **Deljenja**: Omogočeno je deljenje barvnih palet prek drugih aplikacij.
+- Funkcionalnosti vključujejo tudi kopiranje HEX kode barve v odložišče.
+
   
 ---
 
