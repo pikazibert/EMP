@@ -34,11 +34,22 @@
             android:layout_marginRight="7dp"
             android:src="@drawable/www" />
         <ImageButton
+            android:id="@+id/cameraButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="7dp"
+
+            android:src="@drawable/camera" />
+        <ImageButton
             android:id="@+id/viewSavedPalettesButton"
             android:layout_width="29dp"
             android:layout_height="33dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
+            android:layout_marginRight="7dp"
+
             android:src="@drawable/open" />
     </LinearLayout>
 
@@ -55,7 +66,6 @@
             android:layout_height="61dp"
             android:layout_weight="1"
             android:hint="Enter HEX color" />
-
         <ImageButton
             android:id="@+id/colorPickerButton"
             android:layout_width="61dp"

@@ -13,6 +13,7 @@ swipeRevealLayout = "1.4.1"
 swipereveallayoutVersion = "1.4.0"
 library = "1.2.0"
 volley = "1.2.1"
+okhttp = "5.0.0-alpha.14"
 
 
 [libraries]
@@ -28,6 +29,7 @@ swipe-reveal-layout = { group = "com.chauthai.swipereveallayout", name = "swipe-
 swipereveallayout = { group = "com.github.hydrated", name = "SwipeRevealLayout", version.ref = "swipereveallayoutVersion" }
 library = { group = "com.daimajia.swipelayout", name = "library", version.ref = "library" }
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

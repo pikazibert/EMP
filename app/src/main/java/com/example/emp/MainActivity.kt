@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         val colorPickerButton = findViewById<ImageButton>(R.id.colorPickerButton)
         val savePaletteButton = findViewById<Button>(R.id.savePaletteButton)
         val viewSavedPalettesButton = findViewById<ImageButton>(R.id.viewSavedPalettesButton)
+        val cameraButton = findViewById<ImageButton>(R.id.cameraButton)
         val viewOnlinePalletsButton = findViewById<ImageButton>(R.id.viewOnlinePalletesButton)
         val settings = findViewById<ImageButton>(R.id.settingsButton)
 
@@ -104,6 +105,11 @@ class MainActivity : AppCompatActivity() {
 
         settings.setOnClickListener {
             val intent = Intent(this, SettingsInfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        cameraButton.setOnClickListener {
+            val intent = Intent(this, FromPhotoActivity::class.java)
             startActivity(intent)
         }
 
