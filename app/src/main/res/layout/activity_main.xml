@@ -5,106 +5,125 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Settings and Saved Palettes Buttons -->
+    <!-- Centered Content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- Color Input and Color Picker -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/colorInput"
+                android:layout_width="0dp"
+                android:layout_height="61dp"
+                android:layout_weight="1"
+                android:hint="Enter HEX color" />
+
+            <ImageButton
+                android:id="@+id/colorPickerButton"
+                android:layout_width="61dp"
+                android:layout_height="61dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/colorwheel" />
+        </LinearLayout>
+
+        <!-- Scheme Spinner -->
+        <Spinner
+            android:id="@+id/schemeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginTop="16dp" />
+
+        <!-- Palette Container -->
+        <LinearLayout
+            android:id="@+id/paletteContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp" />
+
+        <!-- Save Palette Button -->
+        <Button
+            android:id="@+id/savePaletteButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Palette"
+            android:layout_marginTop="16dp" />
+
+        <!-- History Container -->
+        <LinearLayout
+            android:id="@+id/historyContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:gravity="start" />
+    </LinearLayout>
+
+    <!-- Navigation Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginBottom="16dp">
 
+        <!-- Settings Button -->
         <ImageButton
             android:id="@+id/settingsButton"
             android:layout_width="29dp"
             android:layout_height="33dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:src="@drawable/settings" />
+            android:src="@drawable/settings"
+            android:layout_marginHorizontal="16dp" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-        <ImageButton
-            android:id="@+id/viewOnlinePalletesButton"
-            android:layout_width="29dp"
-            android:layout_height="33dp"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:layout_marginRight="7dp"
-            android:src="@drawable/www" />
-        <ImageButton
-            android:id="@+id/cameraButton"
-            android:layout_width="29dp"
-            android:layout_height="33dp"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:layout_marginRight="7dp"
-
-            android:src="@drawable/camera" />
+        <!-- Saved Palettes Button -->
         <ImageButton
             android:id="@+id/viewSavedPalettesButton"
             android:layout_width="29dp"
             android:layout_height="33dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:layout_marginRight="7dp"
+            android:src="@drawable/open"
+            android:layout_marginHorizontal="16dp" />
 
-            android:src="@drawable/open" />
-    </LinearLayout>
-
-    <!-- Color Input and Color Picker (Same Line) -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="140dp">
-
-        <EditText
-            android:id="@+id/colorInput"
-            android:layout_width="0dp"
-            android:layout_height="61dp"
-            android:layout_weight="1"
-            android:hint="Enter HEX color" />
+        <!-- Home Button -->
         <ImageButton
-            android:id="@+id/colorPickerButton"
-            android:layout_width="61dp"
-            android:layout_height="61dp"
+            android:id="@+id/homeButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:src="@drawable/colorwheel" />
+            android:src="@drawable/no_like"
+            android:layout_marginHorizontal="16dp" />
+
+        <!-- Online Palettes Button -->
+        <ImageButton
+            android:id="@+id/viewOnlinePalletesButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/www"
+            android:layout_marginHorizontal="16dp" />
+
+        <!-- Camera Button -->
+        <ImageButton
+            android:id="@+id/cameraButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/camera"
+            android:layout_marginHorizontal="16dp" />
     </LinearLayout>
-
-    <!-- Scheme Spinner -->
-    <Spinner
-        android:id="@+id/schemeSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="16dp" />
-
-    <!-- Palette Container -->
-    <LinearLayout
-        android:id="@+id/paletteContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp" />
-
-    <!-- Save Palette Button -->
-    <Button
-        android:id="@+id/savePaletteButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save Palette"
-        android:layout_marginTop="16dp" />
-
-    <!-- History Container -->
-    <LinearLayout
-        android:id="@+id/historyContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:gravity="start"
-        android:layout_alignParentBottom="true"/>
 </LinearLayout>

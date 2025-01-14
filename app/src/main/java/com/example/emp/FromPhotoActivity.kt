@@ -57,10 +57,9 @@ class FromPhotoActivity : AppCompatActivity() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, TAKE_PHOTO_REQUEST)
     }
-    val maxHeight = 200  // Maximum height in pixels
+    val maxHeight = 600  // Maximum height in pixels
 
     fun setImage(bitmap: Bitmap) {
-        // Check the image height
         if (bitmap.height > maxHeight) {
             // Scale the image to fit within the maxHeight while maintaining aspect ratio
             val scaleFactor = maxHeight.toFloat() / bitmap.height
@@ -77,22 +76,28 @@ class FromPhotoActivity : AppCompatActivity() {
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        val placeholderText: TextView = findViewById(R.id.placeholderText) // Poiščite placeholder
+
         if (resultCode == Activity.RESULT_OK && data != null) {
             when (requestCode) {
                 PICK_IMAGE_REQUEST -> {
                     val uri = data.data
                     val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
                     setImage(bitmap)
+                    placeholderText.visibility = View.GONE // Skrij placeholder
                     sendPhotoToApi(bitmap)
                 }
                 TAKE_PHOTO_REQUEST -> {
                     val bitmap = data.extras?.get("data") as Bitmap
                     setImage(bitmap)
+                    placeholderText.visibility = View.GONE // Skrij placeholder
                     sendPhotoToApi(bitmap)
                 }
             }
         }
     }
+
 
     private fun sendPhotoToApi(bitmap: Bitmap) {
         val url = "http://1kp3.com:5000/analyze"
@@ -103,7 +108,7 @@ class FromPhotoActivity : AppCompatActivity() {
         val requestBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart(
-                "file", // Ime polja mora biti enako kot v Flask API-ju
+                "file",
                 "photo.jpg",
                 RequestBody.create("image/jpeg".toMediaTypeOrNull(), byteArray)
             )
