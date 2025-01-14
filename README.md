@@ -21,6 +21,7 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
   - **ClipData in ClipboardManager**: Omogočata kopiranje podatkov v odložišče.
 - **Zunanji API**:
   - **ColourLovers API**: Uporablja se za pridobivanje barvnih palet iz spletne storitve **ColourLovers**
+  - **PhotoColor API**: Uporablja se za izločanje pogostosti barv iz fotografije.
 
 ---
 
@@ -77,7 +78,20 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
   - **Deljenja**: Omogočeno je deljenje barvnih palet prek drugih aplikacij.
 - Funkcionalnosti vključujejo tudi kopiranje HEX kode barve v odložišče.
 
-  
+### 5. **FromPhotoActivity - Izvoz pogostih barv iz fotografije**
+ - Aktivnost, ki omogoča analizo barv iz fotografije z uporabo spletne storitve PhotoColor API.
+ - Uporabnik lahko fotografijo naloži:
+   - **Iz galerije** z izbiro obstoječe slike.
+   - **S kamero**, kjer fotografijo posname neposredno z aplikacijo.
+ - Aplikacija analizira fotografijo in iz nje pridobi 12 najpogostejših barv, ki so prikazane v obliki barvnih kvadratov.
+ - Funkcionalnosti vsakega barvnega kvadrata:
+   - Kopiranje HEX kode: Uporabnik lahko z dotikom kopira HEX kodo barve v odložišče.
+ - Uporabljene knjižnice in tehnologije:
+   - **OkHttp** za pošiljanje slik na API.
+   - **MediaStore** za izbiro slik iz galerije.
+   - **GradientDrawable** za oblikovanje barvnih kvadratov z zaobljenimi robovi.
+   - **ClipboardManager** za kopiranje barvne kode v odložišče.
+   - **GridLayout** za dinamično prikazovanje barvnih kvadratov. 
 ---
 
 ## Kratek opis arhitekturne zasnove aplikacije
@@ -86,7 +100,8 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
   - `SavedPalettesActivity`: Aktivnost za pregled shranjenih barvnih palet.
   - `SettingsInfoActivity`: Aktivnost za upravljanje nastavitev, kot so tema aplikacije in brisanje podatkov.
   - `OnlinePallets`: Aktivnost, ki omogoča nalaganje in prikaz barvnih palet iz spletne storitve **ColourLovers** preko zunanjih API-jev.
-    
+  - `FromPhotoActivity`: Aktivnost, ki omogoča izločanje barv iz fotografije.
+
 - **Shranjevanje podatkov**:
   - Uporaba `SharedPreferences` za trajno shranjevanje barvnih palet, zgodovine in nastavitev teme.
     
@@ -110,24 +125,47 @@ komplementarne, monokromatske, analogne, triadične in tetradične. Generirane b
 
 ## **Uporaba zunanjih API-jev**
 
-Aplikacija **MyPalette** uporablja zunanji API za pridobivanje barvnih palet iz spletne storitve **ColourLovers**. API omogoča dostop do različnih barvnih palet, ki so razvrščene v več kategorij, kot so **popularne**, **nove** in **naključne**. Aplikacija uporablja te podatke za prikazovanje barvnih palet v uporabniškem vmesniku.
+### **MyPalette**
+-  Aplikacija uporablja zunanji API za pridobivanje barvnih palet iz spletne storitve **ColourLoversy**. API omogoča dostop do različnih barvnih palet, ki so razvrščene v več kategorij, kot so **popularne**, **nove** in **naključne**. Aplikacija uporablja te podatke za prikazovanje barvnih palet v uporabniškem vmesniku.
 
-### **Uporaba API-ja**:
+#### **Uporaba API-ja**:
 - API klici se izvajajo ob izbiri kategorije v spustnem seznamu, kjer uporabnik izbere vrsto barvnih palet (npr. "Popular", "New", "Random").
 - Klic API-ja se izvede z uporabo knjižnice **Volley**, ki omogoča asinhrono nalaganje podatkov iz API-ja in obdelavo rezultatov.
 - API vrača podatke v obliki **JSON**, ki jih aplikacija obdeluje in prikazuje uporabniku v obliki barvnih palet.
 
-### **Pridobivanje podatkov iz API-ja**:
+#### **Pridobivanje podatkov iz API-ja**:
 Aplikacija uporablja naslednje API konce:
 - **Popularne palete**: `https://www.colourlovers.com/api/palettes/top?format=json&numResults=10`
 - **Nove palete**: `https://www.colourlovers.com/api/palettes/new?format=json&numResults=10`
 - **Naključne palete**: `https://www.colourlovers.com/api/palettes/random?format=json&numResults=10`
 
-### **Uporabniški vmesnik**:
+#### **Uporabniški vmesnik**:
 - Ko uporabnik izbere eno od kategorij (npr. "Popular"), aplikacija pokliče ustrezen API in prikaže seznam barvnih palet.
 - Vsaka paleta vsebuje seznam barv (HEX kode), ki se prikažejo uporabniku skupaj z naslovom palete.
 
 
+
+### **PhotoColor API**
+
+Aplikacija uporablja zunanji API za pridobivanje dvanajstih barv iz izbrane fotografije. To omogoča uporabniku, da enostavno izloči ključne barve iz fotografije in ustvari barvno paleto.
+
+#### **Uporaba API-ja**:
+- API klici se izvedejo ob izbiri fotografije, bodisi preko galerije bodisi z zajemom nove fotografije s kamero.
+- Ko je slika izbrana, se pošlje v API za analizo, ki vrne dvanajst najpomembnejših barv.
+- Te barve so nato prikazane v uporabniškem vmesniku kot barvni kvadrati.
+
+#### **Pridobivanje podatkov iz API-ja**:
+Aplikacija pošlje sliko na API končni naslov, kjer se izvede analiza barv in vrne seznam dvanajstih barv v obliki HEX kod.
+
+#### API Končni točki:
+- **URL za analizo slike**: `http://1kp3.com:5000/analyze`
+  
+Po pošiljanju slike, API vrne seznam barvnih kod, ki jih aplikacija prikaže uporabniku. Te kode so uporabljene za ustvarjanje vizualnih barvnih kvadratov, ki se prikažejo v uporabniškem vmesniku.
+
+### **Uporabniški vmesnik**:
+- Ko uporabnik izbere fotografijo (iz galerije ali z uporabo kamere), se pošlje na API za analizo.
+- Ko API vrne rezultate, aplikacija prikaže barvne kvadrate, ki predstavljajo najpomembnejše barve na sliki.
+- Barve so predstavljene kot HEX kode, ki jih uporabnik lahko kopira v svoje odložišče ob klikom na kvadrat.
 ---
 
 ## **Podatkovni model (shema)**
@@ -136,7 +174,8 @@ Aplikacija uporablja naslednje API konce:
 - **Barvna paleta**:
   - **ID**: Unikaten identifikator.
   - **Seznam barv**: HEX kode barv v paleti.
-  - **Priljubljena**: Boolean, označuje, ali je paleta označena kot priljubljena.
+  - **Liked**: Boolean, označuje, ali je paleta označena kot priljubljena.
+  - **Downloaded**: Boolean, označuje, ali je bila paleta prenesena s spleta.
 - **Zgodovina**:
   - Zadnjih 5 izbranih barv (HEX kode).
 - **Tema**:
