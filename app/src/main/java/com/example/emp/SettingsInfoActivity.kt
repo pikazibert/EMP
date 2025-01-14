@@ -1,6 +1,7 @@
 package com.example.emp
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -92,6 +93,32 @@ class SettingsInfoActivity : AppCompatActivity() {
         } else {
             Html.fromHtml(description)
         }
+
+        val cameraButton = findViewById<ImageButton>(R.id.cameraButton)
+        val homeButton = findViewById<ImageButton>(R.id.homeButton)
+        val viewOnlinePalletsButton = findViewById<ImageButton>(R.id.viewOnlinePalletesButton)
+        val viewSavedPalettesButton = findViewById<ImageButton>(R.id.viewSavedPalettesButton)
+
+        cameraButton.setOnClickListener {
+            val intent = Intent(this, FromPhotoActivity::class.java)
+            startActivity(intent)
+        }
+
+        viewSavedPalettesButton.setOnClickListener {
+            val intent = Intent(this, SavedPalettesActivity::class.java)
+            startActivity(intent)
+        }
+
+        homeButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        viewOnlinePalletsButton.setOnClickListener {
+            val intent = Intent(this, OnlinePallets::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onStart() {

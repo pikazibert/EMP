@@ -1,55 +1,122 @@
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    >
+    android:padding="16dp">
 
-
-    <TextView
-        android:id="@+id/headerText"
+    <!-- Main Content at the Top -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Saved Color Palettes"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:gravity="left"
-        android:paddingBottom="16dp"
-        android:paddingTop="20dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="top"
+        android:layout_marginBottom="56dp">
 
-    <!-- Vrstica z napisom "Filtri" in dropdown menijem -->
+        <TextView
+            android:id="@+id/headerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Saved Color Palettes"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="left"
+            android:paddingBottom="16dp"
+            android:paddingTop="20dp" />
+
+        <!-- Row with "Filters" Label and Dropdown -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/filterLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Filters"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/filterDropdown"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:spinnerMode="dropdown" />
+        </LinearLayout>
+
+        <!-- Scrollable Container for Palettes -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/savedPaletteContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- Navigation Bar at the Bottom -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="16dp">
 
-        <TextView
-            android:id="@+id/filterLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="Filters"
-            android:textSize="18sp" />
+        <!-- Settings Button -->
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/settings"
+            android:layout_marginHorizontal="16dp" />
 
-        <Spinner
-            android:id="@+id/filterDropdown"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:spinnerMode="dropdown" />
+        <!-- Saved Palettes Button -->
+        <ImageButton
+            android:id="@+id/viewSavedPalettesButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/open_current"
+            android:layout_marginHorizontal="16dp" />
+
+        <!-- Home Button -->
+        <ImageButton
+            android:id="@+id/homeButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/home"
+            android:layout_marginHorizontal="16dp" />
+
+        <!-- Online Palettes Button -->
+        <ImageButton
+            android:id="@+id/viewOnlinePalletesButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/www"
+            android:layout_marginHorizontal="16dp" />
+
+        <!-- Camera Button -->
+        <ImageButton
+            android:id="@+id/cameraButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/camera"
+            android:layout_marginHorizontal="16dp" />
     </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/savedPaletteContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
-</LinearLayout>
+</FrameLayout>

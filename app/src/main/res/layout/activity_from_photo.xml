@@ -45,8 +45,8 @@
                 android:text="Take or Upload a Picture"
                 android:textSize="16sp"
                 android:textColor="#808080"
-                android:background="#FFFFFF"
-                android:alpha="0.8" />
+                android:background="@android:color/transparent"
+                android:alpha="0.9" />
         </FrameLayout>
 
         <GridLayout

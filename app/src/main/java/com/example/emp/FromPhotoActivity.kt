@@ -74,6 +74,37 @@ class FromPhotoActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("FromPhotoActivityLog", "onRestart called")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("FromPhotoActivityLog", "onStart called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("FromPhotoActivityLog", "onResume called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("FromPhotoActivityLog", "onPause called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("FromPhotoActivityLog", "onStop called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("FromPhotoActivityLog", "onDestroy called")
+        Log.d("FromPhotoActivityLog", "Cleaning up resources before activity is destroyed.")
+    }
+
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE_REQUEST)

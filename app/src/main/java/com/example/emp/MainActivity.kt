@@ -124,8 +124,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        Log.d("MainActivityLog", "onRestart called - history is displayed")
-        displayColorHistory(findViewById(R.id.historyContainer))
+        Log.d("MainActivityLog", "onRestart called")
     }
 
     override fun onStart() {
@@ -135,14 +134,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("MainActivityLog", "onResume called")
         val lastColor = sharedPreferences.getString("lastSelectedColor", "#000000")
+        val colorInput = findViewById<EditText>(R.id.colorInput)
+        colorInput.setText(lastColor)
+        Log.d("MainActivityLog", "onResume called, last used color is ${lastColor}")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("MainActivityLog", "onPause called - last color saved")
-        sharedPreferences.edit().putString("lastSelectedColor", "#${Integer.toHexString(selectedColor)}").apply()
+        sharedPreferences.edit().putString("lastSelectedColor", "#${Integer.toHexString(selectedColor).substring(2).uppercase()}").apply()
+        val lastColor = sharedPreferences.getString("lastSelectedColor", "#000000")
+        Log.d("MainActivityLog", "onPause called - last color saved is ${lastColor}")
     }
 
     override fun onStop() {
