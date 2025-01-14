@@ -17,6 +17,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -46,6 +47,31 @@ class FromPhotoActivity : AppCompatActivity() {
 
         selectPhotoButton.setOnClickListener { openGallery() }
         takePhotoButton.setOnClickListener { takePhoto() }
+
+        val viewSavedPalettesButton = findViewById<ImageButton>(R.id.viewSavedPalettesButton)
+        val homeButton = findViewById<ImageButton>(R.id.homeButton)
+        val viewOnlinePalletsButton = findViewById<ImageButton>(R.id.viewOnlinePalletesButton)
+        val settings = findViewById<ImageButton>(R.id.settingsButton)
+
+        viewSavedPalettesButton.setOnClickListener {
+            val intent = Intent(this, SavedPalettesActivity::class.java)
+            startActivity(intent)
+        }
+
+        settings.setOnClickListener {
+            val intent = Intent(this, SettingsInfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        homeButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        viewOnlinePalletsButton.setOnClickListener {
+            val intent = Intent(this, OnlinePallets::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun openGallery() {

@@ -1,17 +1,15 @@
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
     <!-- Centered Content -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
 
         <!-- Color Input and Color Picker -->
         <LinearLayout
@@ -74,6 +72,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
+        android:layout_gravity="bottom"
         android:layout_marginBottom="16dp">
 
         <!-- Settings Button -->
@@ -103,7 +102,7 @@
             android:layout_height="33dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:src="@drawable/no_like"
+            android:src="@drawable/home_current"
             android:layout_marginHorizontal="16dp" />
 
         <!-- Online Palettes Button -->
@@ -126,4 +125,4 @@
             android:src="@drawable/camera"
             android:layout_marginHorizontal="16dp" />
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>

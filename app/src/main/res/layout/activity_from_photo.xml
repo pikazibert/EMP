@@ -1,55 +1,122 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <Button
-        android:id="@+id/selectPhotoButton"
+    <!-- Main Content at the Top -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select Photo from Gallery" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="top"
+        android:layout_marginBottom="56dp">
 
-    <Button
-        android:id="@+id/takePhotoButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Take Photo" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="16dp">
-
-        <ImageView
-            android:id="@+id/imageView"
+        <Button
+            android:id="@+id/selectPhotoButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:background="@drawable/border_background"
-            android:contentDescription="Selected Image" />
+            android:layout_height="wrap_content"
+            android:text="Select Photo from Gallery" />
 
-        <TextView
-            android:id="@+id/placeholderText"
+        <Button
+            android:id="@+id/takePhotoButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Take or Upload a Picture"
-            android:textSize="16sp"
-            android:textColor="#808080"
-            android:background="#FFFFFF"
-            android:alpha="0.8" />
-    </FrameLayout>
+            android:layout_height="wrap_content"
+            android:text="Take Photo"
+            android:layout_marginTop="8dp" />
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="16dp">
 
-    <GridLayout
-        android:id="@+id/colorGridLayout"
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:background="@drawable/border_background"
+                android:contentDescription="Selected Image" />
+
+            <TextView
+                android:id="@+id/placeholderText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Take or Upload a Picture"
+                android:textSize="16sp"
+                android:textColor="#808080"
+                android:background="#FFFFFF"
+                android:alpha="0.8" />
+        </FrameLayout>
+
+        <GridLayout
+            android:id="@+id/colorGridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:columnCount="3"
+            android:rowCount="4"
+            android:padding="8dp" />
+    </LinearLayout>
+
+    <!-- Navigation Bar at the Bottom -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:columnCount="3"
-        android:rowCount="4"
-        android:padding="8dp" />
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="16dp">
 
-</LinearLayout>
+        <!-- Settings Button -->
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/settings"
+            android:layout_marginHorizontal="16dp" />
+
+        <!-- Saved Palettes Button -->
+        <ImageButton
+            android:id="@+id/viewSavedPalettesButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/open"
+            android:layout_marginHorizontal="16dp" />
+
+        <!-- Home Button -->
+        <ImageButton
+            android:id="@+id/homeButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/home"
+            android:layout_marginHorizontal="16dp" />
+
+        <!-- Online Palettes Button -->
+        <ImageButton
+            android:id="@+id/viewOnlinePalletesButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/www"
+            android:layout_marginHorizontal="16dp" />
+
+        <!-- Camera Button -->
+        <ImageButton
+            android:id="@+id/cameraButton"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/camera_current"
+            android:layout_marginHorizontal="16dp" />
+    </LinearLayout>
+
+</FrameLayout>
