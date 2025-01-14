@@ -14,6 +14,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
@@ -58,6 +59,61 @@ class OnlinePallets : AppCompatActivity() {
                 // No action needed
             }
         }
+        val viewSavedPalettesButton = findViewById<ImageButton>(R.id.viewSavedPalettesButton)
+        val homeButton = findViewById<ImageButton>(R.id.homeButton)
+        val cameraButton = findViewById<ImageButton>(R.id.cameraButton)
+        val settings = findViewById<ImageButton>(R.id.settingsButton)
+
+        viewSavedPalettesButton.setOnClickListener {
+            val intent = Intent(this, SavedPalettesActivity::class.java)
+            startActivity(intent)
+        }
+
+        settings.setOnClickListener {
+            val intent = Intent(this, SettingsInfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        homeButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        cameraButton.setOnClickListener {
+            val intent = Intent(this, FromPhotoActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("OnlinePalletsLog", "onRestart called")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("OnlinePalletsLog", "onStart called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("OnlinePalletsLog", "onResume called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("v", "onPause called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("OnlinePalletsLog", "onStop called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("OnlinePalletsLog", "onDestroy called")
+        Log.d("OnlinePalletsLog", "Cleaning up resources before activity is destroyed.")
     }
 
     private fun fetchPalettesFromAPI(category: String, onResult: (List<Pair<List<String>, String>>) -> Unit) {

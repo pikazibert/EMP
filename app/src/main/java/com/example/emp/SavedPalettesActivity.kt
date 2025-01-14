@@ -68,6 +68,31 @@ class SavedPalettesActivity : AppCompatActivity() {
                 // No action needed
             }
         }
+
+        val cameraButton = findViewById<ImageButton>(R.id.cameraButton)
+        val homeButton = findViewById<ImageButton>(R.id.homeButton)
+        val viewOnlinePalletsButton = findViewById<ImageButton>(R.id.viewOnlinePalletesButton)
+        val settings = findViewById<ImageButton>(R.id.settingsButton)
+
+        cameraButton.setOnClickListener {
+            val intent = Intent(this, FromPhotoActivity::class.java)
+            startActivity(intent)
+        }
+
+        settings.setOnClickListener {
+            val intent = Intent(this, SettingsInfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        homeButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        viewOnlinePalletsButton.setOnClickListener {
+            val intent = Intent(this, OnlinePallets::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {
